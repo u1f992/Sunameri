@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- https://docs.microsoft.com/dotnet/core/deploying/single-file -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
+
+    <!-- https://opcdiary.net/net-5%E3%81%A7%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8B/ -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+    <DebugType>embedded</DebugType>
+    
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ConsoleAppFramework" Version="4.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Narwhal\Narwhal.csproj" />
+  </ItemGroup>
+
+  <!-- https://stackoverflow.com/a/43934475 -->
+  <Target Name="Rename" AfterTargets="Publish">
+    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Narwhal.exe" />
+    <Message Text="Rename SampleApp.exe -> Narwhal.exe" Importance="high" />
+  </Target>
+
+</Project>
