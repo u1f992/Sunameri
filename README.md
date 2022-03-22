@@ -1,12 +1,11 @@
 # Narwhal
 
-Provides NINTENDO GAMECUBE controller emulation via Arduino.
-
-Based on [WHALE](https://github.com/mizuyoukanao/WHALE) by mizuyoukanao.
+NINTENDO GAMECUBE automation library for .NET, compatible with [WHALE](https://github.com/mizuyoukanao/WHALE) firmware by mizuyoukanao.
 
 ## Usage
 
 ```cs
+using System.IO.Ports;
 using System.Text.Json;
 using Narwhal;
 
