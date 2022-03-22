@@ -21,28 +21,32 @@ public class SampleApp : ConsoleAppBase
 
         var cts = new CancellationTokenSource();
         var ct = cts.Token;
-        // Escapeで終了
         Task.Run(() => 
         {
             while (!ct.IsCancellationRequested)
+            {
+                // Enterを含む入力を読み捨てる
+                Console.ReadKey(true);
+                // Escapeで中断
                 if (Keyboad.GetKeyState(Key.VK_ESCAPE) < 0)
                 {
                     Console.Write(string.Format("{0}}}]\n", sw.ElapsedMilliseconds - previousMilliseconds));
                     cts.Cancel();
                 }
+            }
         }, ct);
 
         // ボタンID、対応する入力キー、KeyDown/KeyUp時に送信する内容を定義する
         var db = new Dictionary<string, (char key, char down, char up)>()
         {
-            {"A",     ('X',                KeyDown.A, KeyUp.A)},
-            {"B",     ('Z',                KeyDown.B, KeyUp.B)},
-            {"X",     ('C',                KeyDown.X, KeyUp.X)},
-            {"Y",     ('S',                KeyDown.Y, KeyUp.Y)},
-            {"L",     ('Q',                KeyDown.L, KeyUp.L)},
-            {"R",     ('R',                KeyDown.R, KeyUp.R)},
-            {"Z",     ('D',                KeyDown.Z, KeyUp.Z)},
-            {"Start", ((char)Key.VK_SPACE, KeyDown.Start, KeyUp.Start)},
+            {"A",     ('X',                 KeyDown.A, KeyUp.A)},
+            {"B",     ('Z',                 KeyDown.B, KeyUp.B)},
+            {"X",     ('C',                 KeyDown.X, KeyUp.X)},
+            {"Y",     ('S',                 KeyDown.Y, KeyUp.Y)},
+            {"L",     ('Q',                 KeyDown.L, KeyUp.L)},
+            {"R",     ('R',                 KeyDown.R, KeyUp.R)},
+            {"Z",     ('D',                 KeyDown.Z, KeyUp.Z)},
+            {"Start", ((char)Key.VK_RETURN, KeyDown.Start, KeyUp.Start)},
 
             // 十字キー
             {"Left",  ('F', KeyDown.Left,  KeyUp.Left)},
@@ -126,7 +130,7 @@ public class SampleApp : ConsoleAppBase
 
         var cts = new CancellationTokenSource();
         var ct = cts.Token;
-        // Escで中断
+        // Escapeで中断
         Task.Run(() => 
         {
             while (!ct.IsCancellationRequested)
