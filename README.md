@@ -12,6 +12,9 @@ using Narwhal;
 using (var controller = new SerialPort("COM6", 4800))
 {
     controller.Open();
+
+    // Release all buttons and sticks
+    controller.Initialize();
     
     // Press A
     // (interval: 100ms by default)
@@ -31,8 +34,10 @@ using (var controller = new SerialPort("COM6", 4800))
         new Operation(KeyUp.B)
     });
 
-    // same as above
-    controller.Run(new List<(char, uint)>
+    // same as above but async
+    var cts = new CancellationTokenSource();
+    var ct = cts.Token;
+    var task = controller.RunAsync(new List<(char, uint)>
     {
         (KeyDown.Right, Operation.DefaultInterval),
         (KeyUp.Right,   Operation.DefaultInterval),
@@ -40,7 +45,8 @@ using (var controller = new SerialPort("COM6", 4800))
         (KeyUp.A,       Operation.DefaultInterval),
         (KeyDown.B,     Operation.DefaultInterval),
         (KeyUp.B,       Operation.DefaultInterval)
-    });
+    }, ct);
+    task.Wait();
 
     // Deserialize from JSON
     var json = @"[{""command"":""a"",""interval"":100},{""command"":""m"",""interval"":100}]";

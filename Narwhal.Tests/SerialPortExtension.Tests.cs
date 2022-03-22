@@ -2,6 +2,7 @@ using Xunit;
 
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Threading;
 using Narwhal;
 
 public class SerialPortExtension_Tests
@@ -27,7 +28,9 @@ public class SerialPortExtension_Tests
                 new Operation(KeyUp.B)
             });
 
-            controller.Run(new List<(char, uint)>
+            var cts = new CancellationTokenSource();
+            var ct = cts.Token;
+            var task = controller.RunAsync(new List<(char, uint)>
             {
                 (KeyDown.Right, Operation.DefaultInterval),
                 (KeyUp.Right,   Operation.DefaultInterval),
@@ -35,7 +38,27 @@ public class SerialPortExtension_Tests
                 (KeyUp.A,       Operation.DefaultInterval),
                 (KeyDown.B,     Operation.DefaultInterval),
                 (KeyUp.B,       Operation.DefaultInterval)
-            });
+            }, ct);
+            task.Wait();
+        }
+    }
+    [Fact(DisplayName = "Initializeは正しく機能している")]
+    public void Initialize_works_properly()
+    {
+        using (var controller = new SerialPort("COM6", 4800))
+        {
+            controller.Open();
+            // hold right
+            controller.Run(KeyDown.Right, 0);
+            
+            Thread.Sleep(2500);
+            controller.Initialize();
+
+            // tilt left
+            controller.Run(xAxis._0, 0);
+            
+            Thread.Sleep(1500);
+            controller.Initialize();
         }
     }
 }
