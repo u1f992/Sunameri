@@ -2,10 +2,6 @@
 
 namespace Narwhal;
 
-/// <summary>
-/// Provides NINTENDO GAMECUBE controller emulation via Arduino.
-/// <see href="https://github.com/mizuyoukanao/WHALE"/>
-/// </summary>
 public static class SerialPortAsyncExtension
 {
     /// <summary>
