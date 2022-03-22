@@ -103,4 +103,38 @@ public class SerialPortAsyncExtension_Tests
             await controller.RunAsync(KeyUp.A, 100, ct);
         }
     }
+    [Fact(DisplayName = "RunAsyncは正しく機能している")]
+    public async void RunAsync_works_properly()
+    {
+        using (var controller = new SerialPort("COM6", 4800))
+        {
+            controller.Open();
+            // await
+            await controller.RunAsync(new List<(char, uint)>
+            {
+                (KeyDown.Left, 1000),
+                (KeyUp.Left, 100),
+                (KeyDown.Right, 1000),
+                (KeyUp.Right, 100),
+            });
+            Thread.Sleep(2000);
+            // cancel
+            var cts = new CancellationTokenSource();
+            var ct = cts.Token;
+            var task = controller.RunAsync(new List<(char, uint)>
+            {
+                (KeyDown.Up, 1000),
+                (KeyUp.Up, 100),
+                (KeyDown.Down, 1000),
+                (KeyUp.Down, 100),
+                (KeyDown.Up, 1000),
+                (KeyUp.Up, 100),
+                (KeyDown.Down, 1000),
+                (KeyUp.Down, 100),
+            }, ct);
+            Thread.Sleep(2000);
+            cts.Cancel();
+            task.Wait();
+        } 
+    }
 }
