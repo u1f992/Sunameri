@@ -55,13 +55,13 @@ using (var controller = new SerialPort("COM6", 4800))
 classDiagram
 class SerialPortExtension {
     +Run(SerialPort serialPort, char message)$ void
+    +Run(SerialPort serialPort, char message, uint interval)$ void
+    +Run(SerialPort serialPort, Operation operation)$ void
     +Run(SerialPort serialPort, char[] sequence)$ void
     +Run(SerialPort serialPort, List~char~ sequence)$ void
-    +Run(SerialPort serialPort, Operation operation)$ void
     +Run(SerialPort serialPort, Operation[] sequence)$ void
     +Run(SerialPort serialPort, List~Operation~ sequence)$ void
     +Run(SerialPort serialPort, List~(char, uint)~ sequence)$ void
-    +Run(SerialPort serialPort, char message, uint interval)$ void
 }
 ```
 
@@ -70,20 +70,20 @@ classDiagram
 class SerialPortAsyncExtension {
     +RunAsync(SerialPort serialPort, char message)$ Task
     +RunAsync(SerialPort serialPort, char message, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, char message, uint interval)$ Task
+    +RunAsync(SerialPort serialPort, char message, uint interval, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, Operation operation)$ Task
+    +RunAsync(SerialPort serialPort, Operation operation, CancellationToken cancellationToken)$ Task
     +RunAsync(SerialPort serialPort, char[] sequence)$ Task
     +RunAsync(SerialPort serialPort, char[] sequence, CancellationToken cancellationToken)$ Task
     +RunAsync(SerialPort serialPort, List~char~ sequence)$ Task
     +RunAsync(SerialPort serialPort, List~char~ sequence, CancellationToken cancellationToken)$ Task
-    +RunAsync(SerialPort serialPort, Operation operation)$ Task
-    +RunAsync(SerialPort serialPort, Operation operation, CancellationToken cancellationToken)$ Task
     +RunAsync(SerialPort serialPort, Operation[] sequence)$ Task
     +RunAsync(SerialPort serialPort, Operation[] sequence, CancellationToken cancellationToken)$ Task
     +RunAsync(SerialPort serialPort, List~Operation~ sequence)$ Task
     +RunAsync(SerialPort serialPort, List~Operation~ sequence, CancellationToken cancellationToken)$ Task
     +RunAsync(SerialPort serialPort, List~(char, uint)~ sequence)$ Task
     +RunAsync(SerialPort serialPort, List~(char, uint)~ sequence, CancellationToken cancellationToken)$ Task
-    +RunAsync(SerialPort serialPort, char message, uint interval)$ Task
-    +RunAsync(SerialPort serialPort, char message, uint interval, CancellationToken cancellationToken)$ Task
 }
 ```
 
