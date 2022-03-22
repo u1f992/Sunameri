@@ -109,6 +109,7 @@ public class SerialPortAsyncExtension_Tests
         using (var controller = new SerialPort("COM6", 4800))
         {
             controller.Open();
+            
             // await
             await controller.RunAsync(new List<(char, uint)>
             {
@@ -118,6 +119,7 @@ public class SerialPortAsyncExtension_Tests
                 (KeyUp.Right, 100),
             });
             Thread.Sleep(2000);
+
             // cancel
             var cts = new CancellationTokenSource();
             var ct = cts.Token;
