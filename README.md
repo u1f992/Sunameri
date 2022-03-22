@@ -60,6 +60,7 @@ using (var controller = new SerialPort("COM6", 4800))
 ```mermaid
 classDiagram
 class SerialPortExtension {
+    +Initialize(SerialPort serialPort)$ void
     +Run(SerialPort serialPort, char message)$ void
     +Run(SerialPort serialPort, char message, uint interval)$ void
     +Run(SerialPort serialPort, Operation operation)$ void
