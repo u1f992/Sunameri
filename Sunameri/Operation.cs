@@ -34,11 +34,6 @@ public class Operation
     /// <param name="message"></param>
     public Operation(char message) : this(message, Operation.DefaultInterval) { }
     /// <summary>
-    /// Initialize the object with a tuple of message and interval.
-    /// </summary>
-    /// <param name="operation"></param>
-    public Operation((char message, uint interval) operation) : this(operation.message, operation.interval) { }
-    /// <summary>
     /// Initialize the object with a message and interval.
     /// </summary>
     /// <param name="message"></param>

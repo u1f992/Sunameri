@@ -103,7 +103,6 @@ class Operation {
 
     +Operation()
     +Operation(char message)
-    +Operation((char, uint) operation)
     +Operation(char message, uint interval)
     +ToJson() string
 }
