@@ -78,6 +78,7 @@ public class SampleApp : ConsoleAppBase
         using (var controller = new SerialPort(port, 4800))
         {
             controller.Open();
+            controller.Initialize();
             
             Task.Run(() =>
             {
@@ -115,6 +116,8 @@ public class SampleApp : ConsoleAppBase
                         Console.Write(operation.ToString()[..^2]);
                     }
             }, ct).Wait();
+
+            controller.Initialize();
         }
     }
 
@@ -141,6 +144,7 @@ public class SampleApp : ConsoleAppBase
             using (var controller = new SerialPort(port, 4800))
             {
                 controller.Open();
+                controller.Initialize();
 
                 var prev = 0;
                 for (var i = 0; i < sequences.Length; i++)
@@ -155,6 +159,8 @@ public class SampleApp : ConsoleAppBase
                     prev = msg.Length;
                 }
                 Console.Write("\n");
+
+                controller.Initialize();
             }
         }, ct).Wait();
     }
