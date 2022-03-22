@@ -52,5 +52,5 @@ public class Operation
     /// <summary>
     /// Converts the object to its equivalent string representation.
     /// </summary>
-    public string ToJson() { return "{\"message\":\"" + Message + "\",\"interval\":" + Interval + "}"; }
+    public override string ToString() { return "{\"message\":\"" + Message + "\",\"interval\":" + Interval + "}"; }
 }

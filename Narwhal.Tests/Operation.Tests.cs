@@ -8,7 +8,7 @@ public class Operation_Tests
     [Fact(DisplayName = "ToJson()は正しい結果を返す")]
     public void ToJson_should_return_expected_result()
     {
-        Assert.Equal(@"{""message"":""a"",""interval"":100}", new Operation(KeyDown.A).ToJson());
+        Assert.Equal(@"{""message"":""a"",""interval"":100}", new Operation(KeyDown.A).ToString());
     }
 
     [Theory(DisplayName = "OperationをJSONからデシリアライズできる")]

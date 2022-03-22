@@ -69,7 +69,7 @@ public class SampleApp : ConsoleAppBase
 
         Console.Write("[");
         // 初回入力までの時間を空入力の待機として再現させる
-        Console.Write(new Operation(Special.Empty, 0).ToJson()[..^2]);
+        Console.Write(new Operation(Special.Empty, 0).ToString()[..^2]);
         
         using (var controller = new SerialPort(port, 4800))
         {
@@ -108,7 +108,7 @@ public class SampleApp : ConsoleAppBase
                         Task.Run(() => controller.Run(operation));
 
                         // duration以外を書いておく
-                        Console.Write(operation.ToJson()[..^2]);
+                        Console.Write(operation.ToString()[..^2]);
                     }
             }, ct).Wait();
         }
@@ -144,7 +144,7 @@ public class SampleApp : ConsoleAppBase
                     if (ct.IsCancellationRequested) break;
 
                     var operation = sequences[i];
-                    var msg = string.Format("Execute {0}/{1}, {2}", i + 1, sequences.Length, operation.ToJson());
+                    var msg = string.Format("Execute {0}/{1}, {2}", i + 1, sequences.Length, operation.ToString());
                     Console.Write("\r{0}\r{1}", new string(' ', prev), msg);
                     controller.Run(operation);
 
