@@ -56,20 +56,21 @@ public static class SerialPortExtension
         if (message != Special.Empty) serialPort.WriteLine(message.ToString());
 
         var timeout = interval;
-        if (interval != 0) Task.Run(() => {
-            long elapsed = 0;
+        if (interval != 0)
+            Task.Run(() => {
+                long elapsed = 0;
 
-            var interval = 10000000 / 1000;
-            var next = DateTime.Now.Ticks + interval;
+                var interval = 10000000 / 1000;
+                var next = DateTime.Now.Ticks + interval;
 
-            while (elapsed < timeout)
-            {
-                if (next <= DateTime.Now.Ticks)
+                while (elapsed < timeout)
                 {
-                    elapsed++;
-                    next += interval;
+                    if (next <= DateTime.Now.Ticks)
+                    {
+                        elapsed++;
+                        next += interval;
+                    }
                 }
-            }
-        }).Wait();
+            }).Wait();
     }
 }
