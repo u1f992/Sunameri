@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{FA506518-00F1-4E14-803A-F153126B38EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Narwhal.Tests", "Narwhal.Tests\Narwhal.Tests.csproj", "{E8AD89C2-FE17-4EAB-ACF5-F74D96776770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunameri.Tests", "Sunameri.Tests\Sunameri.Tests.csproj", "{E8AD89C2-FE17-4EAB-ACF5-F74D96776770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Narwhal", "Narwhal\Narwhal.csproj", "{B7AC8234-BE31-4EE3-A5DA-F81086829048}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunameri", "Sunameri\Sunameri.csproj", "{B7AC8234-BE31-4EE3-A5DA-F81086829048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

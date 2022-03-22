@@ -1,4 +1,4 @@
-namespace Narwhal;
+namespace Sunameri;
 
 /// <summary>
 /// Represents messages to release each button.

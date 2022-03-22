@@ -3,7 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
-using Narwhal;
+using Sunameri;
 
 public class SerialPortAsyncExtension_Tests
 {
