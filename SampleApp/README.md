@@ -23,7 +23,7 @@
 | L      | Q        |
 | R      | R        |
 | Z      | D        |
-| Start  | Space    |
+| Start  | Return   |
 | Left   | F        |
 | Right  | H        |
 | Down   | G        |
