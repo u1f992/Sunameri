@@ -11,7 +11,7 @@ public static class xAxis
     /// </summary>
     public const char _0 = 'y';
     /// <summary>
-    /// Return to the center.
+    /// Return to its center.
     /// </summary>
     public const char _128 = 'z';
     /// <summary>

@@ -11,7 +11,7 @@ public static class cyAxis
     /// </summary>
     public const char _0 = '8';
     /// <summary>
-    /// Return to the center.
+    /// Return to its center.
     /// </summary>
     public const char _128 = '9';
     /// <summary>

@@ -11,7 +11,7 @@ public static class cxAxis
     /// </summary>
     public const char _0 = '5';
     /// <summary>
-    /// Return to the center.
+    /// Return to its center.
     /// </summary>
     public const char _128 = '6';
     /// <summary>

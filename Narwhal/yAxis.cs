@@ -11,7 +11,7 @@ public static class yAxis
     /// </summary>
     public const char _0 = '2';
     /// <summary>
-    /// Return to the center.
+    /// Return to its center.
     /// </summary>
     public const char _128 = '3';
     /// <summary>

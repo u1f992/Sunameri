@@ -8,6 +8,33 @@ namespace Narwhal;
 public static class SerialPortExtension
 {
     /// <summary>
+    /// Release all buttons and return sticks to their center.
+    /// </summary>
+    /// <param name="serialPort"></param>
+    public static void Initialize(this SerialPort serialPort)
+    {
+        serialPort.Run(new List<(char, uint)>()
+        {
+            (KeyUp.A, 0),
+            (KeyUp.B, 0),
+            (KeyUp.X, 0),
+            (KeyUp.Y, 0),
+            (KeyUp.L, 0),
+            (KeyUp.R, 0),
+            (KeyUp.Z, 0),
+            (KeyUp.Start, 0),
+            (KeyUp.Left, 0),
+            (KeyUp.Right, 0),
+            (KeyUp.Down, 0),
+            (KeyUp.Up, 0),
+            (xAxis._128, 0),
+            (yAxis._128, 0),
+            (cxAxis._128, 0),
+            (cyAxis._128, 0)
+        });
+    }
+
+    /// <summary>
     /// Run the operation.<br/>
     /// Use <see cref="Operation.DefaultInterval"/> as the default interval.
     /// </summary>
