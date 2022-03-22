@@ -1,13 +1,13 @@
-# SampleApp (Narwhal.exe)
+# SampleApp (Sunameri.exe)
 
 ## Usage
 
 ```ps1
 # Record key inputs.
-.\Narwhal.exe record --port COM6 | Tee-Object .\sample.json
+.\Sunameri.exe record --port COM6 | Tee-Object .\sample.json
 
 # Replay the operations.
-.\Narwhal.exe replay --port COM6 --input .\sample.json
+.\Sunameri.exe replay --port COM6 --input .\sample.json
 ```
 
 ## Key bindings

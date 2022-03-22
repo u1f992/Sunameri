@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Narwhal;
+namespace Sunameri;
 
 /// <summary>
 /// Represents the operation, which has a message to be sent and the interval between the next message.

@@ -1,4 +1,4 @@
-namespace Narwhal;
+namespace Sunameri;
 
 /// <summary>
 /// Represents messages to tilt the x-axis of the C Stick.

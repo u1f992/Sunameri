@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO.Ports;
 using System.Text.Json;
-using Narwhal;
+using Sunameri;
 
 var app = ConsoleApp.Create(args);
 app.AddCommands<SampleApp>();
