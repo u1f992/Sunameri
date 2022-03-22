@@ -16,6 +16,12 @@ public class SerialPortAsyncExtension_Tests
             // char
             await controller.RunAsync(KeyDown.A);
             await controller.RunAsync(KeyUp.A);
+            // char & uint
+            await controller.RunAsync(KeyDown.A, 100);
+            await controller.RunAsync(KeyUp.A, 100);
+            // Operation
+            await controller.RunAsync(new Operation(KeyDown.A));
+            await controller.RunAsync(new Operation(KeyUp.A));
             // char[]
             await controller.RunAsync(new char[]
             {
@@ -28,9 +34,6 @@ public class SerialPortAsyncExtension_Tests
                 KeyDown.A,
                 KeyUp.A
             });
-            // Operation
-            await controller.RunAsync(new Operation(KeyDown.A));
-            await controller.RunAsync(new Operation(KeyUp.A));
             // Operation[]
             await controller.RunAsync(new Operation[]
             {
@@ -49,9 +52,6 @@ public class SerialPortAsyncExtension_Tests
                 (KeyDown.A, 100),
                 (KeyUp.A, 100)
             });
-            // char + uint
-            await controller.RunAsync(KeyDown.A, 100);
-            await controller.RunAsync(KeyUp.A, 100);
         }
     }
     [Fact(DisplayName = "CancellationTokenありのRunAsyncのオーバーロードを正しく実装している")]
@@ -65,6 +65,12 @@ public class SerialPortAsyncExtension_Tests
             // char
             await controller.RunAsync(KeyDown.A, ct);
             await controller.RunAsync(KeyUp.A, ct);
+            // char + uint
+            await controller.RunAsync(KeyDown.A, 100, ct);
+            await controller.RunAsync(KeyUp.A, 100, ct);
+            // Operation
+            await controller.RunAsync(new Operation(KeyDown.A), ct);
+            await controller.RunAsync(new Operation(KeyUp.A), ct);
             // char[]
             await controller.RunAsync(new char[]
             {
@@ -77,9 +83,6 @@ public class SerialPortAsyncExtension_Tests
                 KeyDown.A,
                 KeyUp.A
             }, ct);
-            // Operation
-            await controller.RunAsync(new Operation(KeyDown.A), ct);
-            await controller.RunAsync(new Operation(KeyUp.A), ct);
             // Operation[]
             await controller.RunAsync(new Operation[]
             {
@@ -98,9 +101,6 @@ public class SerialPortAsyncExtension_Tests
                 (KeyDown.A, 100),
                 (KeyUp.A, 100)
             }, ct);
-            // char + uint
-            await controller.RunAsync(KeyDown.A, 100, ct);
-            await controller.RunAsync(KeyUp.A, 100, ct);
         }
     }
     [Fact(DisplayName = "RunAsyncは正しく機能している")]
@@ -128,13 +128,13 @@ public class SerialPortAsyncExtension_Tests
                 (KeyDown.Up, 1000),
                 (KeyUp.Up, 100),
                 (KeyDown.Down, 1000),
-                (KeyUp.Down, 100),
+                (KeyUp.Down, 1000), // ここでキャンセル
                 (KeyDown.Up, 1000),
                 (KeyUp.Up, 100),
                 (KeyDown.Down, 1000),
                 (KeyUp.Down, 100),
             }, ct);
-            Thread.Sleep(2000);
+            Thread.Sleep(2500);
             cts.Cancel();
             task.Wait();
         } 

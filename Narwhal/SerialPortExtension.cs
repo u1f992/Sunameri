@@ -19,28 +19,7 @@ public static class SerialPortExtension
     /// </summary>
     /// <param name="message"></param>
     /// <param name="interval"></param>
-    public static void Run(this SerialPort serialPort, char message, uint interval)
-    {
-        if (message != Special.Empty) serialPort.WriteLine(message.ToString());
-
-        var timeout = interval;
-        if (interval != 0)
-            Task.Run(() => {
-                long elapsed = 0;
-
-                var interval = 10000000 / 1000;
-                var next = DateTime.Now.Ticks + interval;
-
-                while (elapsed < timeout)
-                {
-                    if (next <= DateTime.Now.Ticks)
-                    {
-                        elapsed++;
-                        next += interval;
-                    }
-                }
-            }).Wait();
-    }
+    public static void Run(this SerialPort serialPort, char message, uint interval) { serialPort.RunAsync(message, interval).Wait(); }
     /// <summary>
     /// Run the operation.
     /// </summary>

@@ -8,7 +8,7 @@
     <!-- https://docs.microsoft.com/dotnet/core/deploying/single-file -->
     <DebugType>embedded</DebugType>
 
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>1.1.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
