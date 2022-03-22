@@ -1,4 +1,4 @@
-# Narwhal
+# Sunameri
 
 NINTENDO GAMECUBE automation library for .NET, compatible with [WHALE](https://github.com/mizuyoukanao/WHALE) firmware by mizuyoukanao.
 
@@ -7,7 +7,7 @@ NINTENDO GAMECUBE automation library for .NET, compatible with [WHALE](https://g
 ```cs
 using System.IO.Ports;
 using System.Text.Json;
-using Narwhal;
+using Sunameri;
 
 using (var controller = new SerialPort("COM6", 4800))
 {
@@ -103,7 +103,6 @@ class Operation {
 
     +Operation()
     +Operation(char message)
-    +Operation((char, uint) operation)
     +Operation(char message, uint interval)
     +ToJson() string
 }

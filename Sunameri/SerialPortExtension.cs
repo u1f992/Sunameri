@@ -1,6 +1,6 @@
 ﻿using System.IO.Ports;
 
-namespace Narwhal;
+namespace Sunameri;
 
 /// <summary>
 /// Provides methods for running GAMECUBE operations.

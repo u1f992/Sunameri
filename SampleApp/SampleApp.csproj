@@ -18,6 +18,8 @@
     <DebugType>embedded</DebugType>
     
     <IsPackable>false</IsPackable>
+
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,13 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Narwhal\Narwhal.csproj" />
+    <ProjectReference Include="..\Sunameri\Sunameri.csproj" />
   </ItemGroup>
 
   <!-- https://stackoverflow.com/a/43934475 -->
   <Target Name="Rename" AfterTargets="Publish">
-    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Narwhal.exe" />
-    <Message Text="Rename SampleApp.exe -> Narwhal.exe" Importance="high" />
+    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Sunameri.exe" />
+    <Message Text="Rename SampleApp.exe -> Sunameri.exe" Importance="high" />
   </Target>
 
 </Project>
