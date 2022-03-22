@@ -1,18 +1,20 @@
 # Narwhal
 
-Provides NINTENDO GAMECUBE controller emulation via Arduino.
-
-Based on [WHALE](https://github.com/mizuyoukanao/WHALE) by mizuyoukanao.
+NINTENDO GAMECUBE automation library for .NET, compatible with [WHALE](https://github.com/mizuyoukanao/WHALE) firmware by mizuyoukanao.
 
 ## Usage
 
 ```cs
+using System.IO.Ports;
 using System.Text.Json;
 using Narwhal;
 
 using (var controller = new SerialPort("COM6", 4800))
 {
     controller.Open();
+
+    // Release all buttons and sticks
+    controller.Initialize();
     
     // Press A
     // (interval: 100ms by default)
@@ -32,8 +34,10 @@ using (var controller = new SerialPort("COM6", 4800))
         new Operation(KeyUp.B)
     });
 
-    // same as above
-    controller.Run(new List<(char, uint)>
+    // same as above but async
+    var cts = new CancellationTokenSource();
+    var ct = cts.Token;
+    var task = controller.RunAsync(new List<(char, uint)>
     {
         (KeyDown.Right, Operation.DefaultInterval),
         (KeyUp.Right,   Operation.DefaultInterval),
@@ -41,7 +45,8 @@ using (var controller = new SerialPort("COM6", 4800))
         (KeyUp.A,       Operation.DefaultInterval),
         (KeyDown.B,     Operation.DefaultInterval),
         (KeyUp.B,       Operation.DefaultInterval)
-    });
+    }, ct);
+    task.Wait();
 
     // Deserialize from JSON
     var json = @"[{""command"":""a"",""interval"":100},{""command"":""m"",""interval"":100}]";
@@ -50,22 +55,47 @@ using (var controller = new SerialPort("COM6", 4800))
 }
 ```
 
-## Diagram
+## Diagrams
 
 ```mermaid
 classDiagram
 class SerialPortExtension {
-    +Run(char message) void
-    +Run(char[] sequence) void
-    +Run(List~char~ sequence) void
-    +Run(Operation operation) void
-    +Run(Operation[] sequence) void
-    +Run(List~Operation~ sequence) void
-    +Run(List~(char, uint)~ sequence) void
-    +Run(char message, uint interval) void
-    -Sleep(long millisecondsTimeout) void
+    +Initialize(SerialPort serialPort)$ void
+    +Run(SerialPort serialPort, char message)$ void
+    +Run(SerialPort serialPort, char message, uint interval)$ void
+    +Run(SerialPort serialPort, Operation operation)$ void
+    +Run(SerialPort serialPort, char[] sequence)$ void
+    +Run(SerialPort serialPort, List~char~ sequence)$ void
+    +Run(SerialPort serialPort, Operation[] sequence)$ void
+    +Run(SerialPort serialPort, List~Operation~ sequence)$ void
+    +Run(SerialPort serialPort, List~(char, uint)~ sequence)$ void
 }
+```
 
+```mermaid
+classDiagram
+class SerialPortAsyncExtension {
+    +RunAsync(SerialPort serialPort, char message)$ Task
+    +RunAsync(SerialPort serialPort, char message, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, char message, uint interval)$ Task
+    +RunAsync(SerialPort serialPort, char message, uint interval, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, Operation operation)$ Task
+    +RunAsync(SerialPort serialPort, Operation operation, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, char[] sequence)$ Task
+    +RunAsync(SerialPort serialPort, char[] sequence, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, List~char~ sequence)$ Task
+    +RunAsync(SerialPort serialPort, List~char~ sequence, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, Operation[] sequence)$ Task
+    +RunAsync(SerialPort serialPort, Operation[] sequence, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, List~Operation~ sequence)$ Task
+    +RunAsync(SerialPort serialPort, List~Operation~ sequence, CancellationToken cancellationToken)$ Task
+    +RunAsync(SerialPort serialPort, List~(char, uint)~ sequence)$ Task
+    +RunAsync(SerialPort serialPort, List~(char, uint)~ sequence, CancellationToken cancellationToken)$ Task
+}
+```
+
+```mermaid
+classDiagram
 class Operation {
     +uint DefaultInterval$
     +char Message

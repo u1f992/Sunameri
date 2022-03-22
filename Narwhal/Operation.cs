@@ -49,5 +49,8 @@ public class Operation
         Interval = interval;
     }
 
-    public string ToJson() { return "{\"message\":\"" + Message + "\",\"interval\":" + Interval + "}"; }
+    /// <summary>
+    /// Converts the object to its equivalent string representation.
+    /// </summary>
+    public override string ToString() { return "{\"message\":\"" + Message + "\",\"interval\":" + Interval + "}"; }
 }
