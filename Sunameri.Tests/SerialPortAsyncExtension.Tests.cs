@@ -3,6 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using Sunameri;
 
 public class SerialPortAsyncExtension_Tests
@@ -138,5 +139,50 @@ public class SerialPortAsyncExtension_Tests
             cts.Cancel();
             task.Wait();
         } 
+    }
+    [Fact(DisplayName = "RunAsyncはキャンセル可能")]
+    public async void RunAsync_allow_cancellation()
+    {
+        var cts = new CancellationTokenSource();
+        var ct = cts.Token;
+
+        // 5秒後にctsに紐づいた非同期処理がキャンセルされる
+        var cancel = Task.Run(async () => 
+        {
+            await Task.Delay(5000);
+            cts.Cancel();
+        });
+
+        using (var controller = new SerialPort("COM6", 4800))
+        {
+            controller.Open();
+            controller.Initialize();
+            
+            // OperationCanceledExceptionがthrowされることを確認
+            await Assert.ThrowsAsync<System.OperationCanceledException>(async () => 
+            {
+                await controller.RunAsync(new List<(char, uint)>
+                {
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000),
+                    (KeyDown.A, 1000),
+                    (KeyUp.A, 1000)
+                }, ct);
+            });
+        }
     }
 }
