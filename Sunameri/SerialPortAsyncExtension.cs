@@ -21,6 +21,7 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="message"></param>
     /// <param name="cancellationToken"></param>
+    /// <exception cref="OperationCanceledException"/>
     public static async Task RunAsync(this SerialPort serialPort, char message, CancellationToken cancellationToken) { await serialPort.RunAsync(message, Operation.DefaultInterval, cancellationToken); }
     /// <summary>
     /// Asynchronously run the operation.
@@ -36,13 +37,16 @@ public static class SerialPortAsyncExtension
     /// <param name="message"></param>
     /// <param name="interval"></param>
     /// <param name="cancellationToken"></param>
+    /// <exception cref="OperationCanceledException"/>
     public static async Task RunAsync(this SerialPort serialPort, char message, uint interval, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         if (message != Special.Empty) serialPort.WriteLine(message.ToString());
-        
+
         var timeout = interval;
         if (interval != 0)
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 long elapsed = 0;
 
                 var interval = 10000000 / 1000;
@@ -57,6 +61,8 @@ public static class SerialPortAsyncExtension
                     }
                 }
             }, cancellationToken);
+
+        cancellationToken.ThrowIfCancellationRequested();
     }
     /// <summary>
     /// Asynchronously run the operation.
@@ -70,6 +76,7 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="operation"></param>
     /// <param name="cancellationToken"></param>
+    /// <exception cref="OperationCanceledException"/>
     public static async Task RunAsync(this SerialPort serialPort, Operation operation, CancellationToken cancellationToken) { await serialPort.RunAsync(operation.Message, operation.Interval, cancellationToken); }
     /// <summary>
     /// Asynchronously run the sequence.<br/>
@@ -85,14 +92,8 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="sequence"></param>
     /// <param name="cancellationToken"></param>
-    public static async Task RunAsync(this SerialPort serialPort, char[] sequence, CancellationToken cancellationToken) 
-    { 
-        foreach (var operation in sequence)
-        {
-            if (cancellationToken.IsCancellationRequested) break;
-            await serialPort.RunAsync(operation, Operation.DefaultInterval, cancellationToken);
-        }
-    }
+    /// <exception cref="OperationCanceledException"/>
+    public static async Task RunAsync(this SerialPort serialPort, char[] sequence, CancellationToken cancellationToken) { foreach (var operation in sequence) { await serialPort.RunAsync(operation, Operation.DefaultInterval, cancellationToken); } }
     /// <summary>
     /// Asynchronously run the sequence.<br/>
     /// Use <see cref="Operation.DefaultInterval"/> as the default interval.
@@ -107,6 +108,7 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="sequence"></param>
     /// <param name="cancellationToken"></param>
+    /// <exception cref="OperationCanceledException"/>
     public static async Task RunAsync(this SerialPort serialPort, List<char> sequence, CancellationToken cancellationToken) { await serialPort.RunAsync(sequence.ToArray(), cancellationToken); }
     /// <summary>
     /// Asynchronously run the sequence.
@@ -120,14 +122,8 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="sequence"></param>
     /// <param name="cancellationToken"></param>
-    public static async Task RunAsync(this SerialPort serialPort, Operation[] sequence, CancellationToken cancellationToken) 
-    { 
-        foreach (var operation in sequence) 
-        {
-            if (cancellationToken.IsCancellationRequested) break;
-            await serialPort.RunAsync(operation, cancellationToken); 
-        }
-    }
+    /// <exception cref="OperationCanceledException"/>
+    public static async Task RunAsync(this SerialPort serialPort, Operation[] sequence, CancellationToken cancellationToken) { foreach (var operation in sequence) { await serialPort.RunAsync(operation, cancellationToken); } }
     /// <summary>
     /// Asynchronously run the sequence.
     /// </summary>
@@ -140,6 +136,7 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="sequence"></param>
     /// <param name="cancellationToken"></param>
+    /// <exception cref="OperationCanceledException"/>
     public static async Task RunAsync(this SerialPort serialPort, List<Operation> sequence, CancellationToken cancellationToken) { await serialPort.RunAsync(sequence.ToArray(), cancellationToken); }
     /// <summary>
     /// Asynchronously run the sequence.
@@ -153,12 +150,6 @@ public static class SerialPortAsyncExtension
     /// <param name="serialPort"></param>
     /// <param name="sequence"></param>
     /// <param name="cancellationToken"></param>
-    public static async Task RunAsync(this SerialPort serialPort, List<(char message, uint interval)> sequence, CancellationToken cancellationToken)
-    {
-        foreach (var operation in sequence) 
-        {
-            if (cancellationToken.IsCancellationRequested) break;
-            await serialPort.RunAsync(operation.message, operation.interval, cancellationToken); 
-        }
-    }
+    /// <exception cref="OperationCanceledException"/>
+    public static async Task RunAsync(this SerialPort serialPort, List<(char message, uint interval)> sequence, CancellationToken cancellationToken) { foreach (var operation in sequence) { await serialPort.RunAsync(operation.message, operation.interval, cancellationToken); } }
 }
