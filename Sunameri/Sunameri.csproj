@@ -9,7 +9,7 @@
     <!-- https://docs.microsoft.com/dotnet/core/deploying/single-file -->
     <DebugType>embedded</DebugType>
 
-    <PackageVersion>3.1.0</PackageVersion>
+    <PackageVersion>3.2.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

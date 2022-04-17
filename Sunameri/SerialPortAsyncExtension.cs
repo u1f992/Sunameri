@@ -1,4 +1,5 @@
-﻿using System.IO.Ports;
+﻿using System.Diagnostics;
+using System.IO.Ports;
 
 namespace Sunameri;
 
@@ -41,7 +42,36 @@ public static class SerialPortAsyncExtension
     public static async Task RunAsync(this SerialPort serialPort, char message, uint interval, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (message != Special.Empty) serialPort.WriteLine(message.ToString());
+        if (message != Special.Empty)
+        {
+            // "GCが起動していないか、接続されていません。" 以外のメッセージ受信を待機する。
+            var sent = false;
+            SerialDataReceivedEventHandler watch = (object sender, SerialDataReceivedEventArgs e) =>
+            {
+                if (!((SerialPort)sender).ReadExisting().Contains("GC")) sent = true;
+            };
+
+            var tmp = serialPort.DtrEnable;
+            serialPort.DtrEnable = true;
+            serialPort.DataReceived += watch;
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            serialPort.WriteLine(message.ToString());
+
+            // 100ms応答がなければ失敗と判断する。標準エラー出力に警告を書く
+            await Task.Run(() =>
+            {
+                while (!sent && stopWatch.ElapsedMilliseconds < 100 && !cancellationToken.IsCancellationRequested) ;
+                stopWatch.Stop();
+                if (stopWatch.ElapsedMilliseconds >= 100) Console.Error.WriteLine("[Sunameri] [Warning] A message '{0}' had been ignored.", message);
+            }, cancellationToken);
+
+            // 購読解除と設定の復元
+            serialPort.DataReceived -= watch;
+            serialPort.DtrEnable = tmp;
+        }
 
         var timeout = interval;
         if (interval != 0)
@@ -63,6 +93,8 @@ public static class SerialPortAsyncExtension
             }, cancellationToken);
 
         cancellationToken.ThrowIfCancellationRequested();
+
+
     }
     /// <summary>
     /// Asynchronously run the operation.
