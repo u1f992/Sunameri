@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.Ports;
+using System.Text;
 
 namespace Sunameri;
 
@@ -45,14 +46,16 @@ public static class SerialPortAsyncExtension
         if (message != Special.Empty)
         {
             // "GCが起動していないか、接続されていません。" 以外のメッセージ受信を待機する。
+            var tmpDtrEnable = serialPort.DtrEnable;
+            var tmpEncoding = serialPort.Encoding;
+            serialPort.DtrEnable = true;
+            serialPort.Encoding = Encoding.UTF8;
+
             var sent = false;
             SerialDataReceivedEventHandler watch = (object sender, SerialDataReceivedEventArgs e) =>
             {
                 if (!((SerialPort)sender).ReadExisting().Contains("GC")) sent = true;
             };
-
-            var tmp = serialPort.DtrEnable;
-            serialPort.DtrEnable = true;
             serialPort.DataReceived += watch;
 
             var stopWatch = new Stopwatch();
@@ -70,7 +73,8 @@ public static class SerialPortAsyncExtension
 
             // 購読解除と設定の復元
             serialPort.DataReceived -= watch;
-            serialPort.DtrEnable = tmp;
+            serialPort.DtrEnable = tmpDtrEnable;
+            serialPort.Encoding = tmpEncoding;
         }
 
         var timeout = interval;
