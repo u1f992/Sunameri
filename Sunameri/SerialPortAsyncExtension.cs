@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO.Ports;
-using System.Text;
+﻿using System.IO.Ports;
 
 namespace Sunameri;
 
@@ -44,38 +42,7 @@ public static class SerialPortAsyncExtension
     {
         cancellationToken.ThrowIfCancellationRequested();
         if (message != Special.Empty)
-        {
-            // "GCが起動していないか、接続されていません。" 以外のメッセージ受信を待機する。
-            var tmpDtrEnable = serialPort.DtrEnable;
-            var tmpEncoding = serialPort.Encoding;
-            serialPort.DtrEnable = true;
-            serialPort.Encoding = Encoding.UTF8;
-
-            var sent = false;
-            SerialDataReceivedEventHandler watch = (object sender, SerialDataReceivedEventArgs e) =>
-            {
-                if (!((SerialPort)sender).ReadExisting().Contains("GC")) sent = true;
-            };
-            serialPort.DataReceived += watch;
-
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             serialPort.WriteLine(message.ToString());
-
-            // 100ms応答がなければ失敗と判断する。標準エラー出力に警告を書く
-            await Task.Run(() =>
-            {
-                while (!sent && stopWatch.ElapsedMilliseconds < 100 && !cancellationToken.IsCancellationRequested) ;
-                stopWatch.Stop();
-                if (stopWatch.ElapsedMilliseconds >= 100) Console.Error.WriteLine("[Sunameri] [Warning] A message '{0}' had been ignored.", message);
-            }, cancellationToken);
-
-            // 購読解除と設定の復元
-            serialPort.DataReceived -= watch;
-            serialPort.DtrEnable = tmpDtrEnable;
-            serialPort.Encoding = tmpEncoding;
-        }
 
         var timeout = interval;
         if (interval != 0)
@@ -87,14 +54,12 @@ public static class SerialPortAsyncExtension
                 var next = DateTime.Now.Ticks + interval;
 
                 while (elapsed < timeout && !cancellationToken.IsCancellationRequested)
-                {
                     if (next <= DateTime.Now.Ticks)
                     {
                         elapsed++;
                         next += interval;
                     }
-                }
-            }, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
 
         cancellationToken.ThrowIfCancellationRequested();
 
