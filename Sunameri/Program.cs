@@ -27,14 +27,8 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         // seed = newVar(System.UInt32); など必須
         engine.AddHostObject("host", HostItemFlags.GlobalMembers, new HostFunctions());
 
-        // PokemonPRNG
-        // engine.AddHostType(typeof(StandardLCGExtension));
-        // engine.AddHostType(typeof(GCLCGExtension));
-        // engine.AddHostType(typeof(TinyMT));
-
         // Hardwares
-        engine.AddHostType(typeof(SerialPort));
-        engine.AddHostType(typeof(SerialPortExtension));
+        engine.AddHostType(typeof(SerialPortWrapper));
         engine.AddHostType(typeof(VideoCaptureWrapper));
         engine.AddHostType(typeof(Mat));
         engine.AddHostType(typeof(MatExtension));
@@ -48,7 +42,7 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         }
         catch (ScriptInterruptedException)
         {
-            // 本当はここで止まってほしいが、たぶんwaitの実装が悪くてキャンセルできない。
+            // 本当はここで止まってほしいが、たぶんsleepの実装が悪くてキャンセルできない。
             // Environment.Exit(1); で吹き飛ばしている。
         }
         catch (Exception e)

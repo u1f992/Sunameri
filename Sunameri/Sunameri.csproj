@@ -11,12 +11,14 @@
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.0.6" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.2.4" />
-    <PackageReference Include="OpenCvSharp4" Version="4.5.5.20211231" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.5.5.20211231" />
-    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="lib/*" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="lib/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VideoCaptureWrapper\VideoCaptureWrapper.csproj" />
+    <ProjectReference Include="..\SerialPortWrapper\SerialPortWrapper.csproj" />
   </ItemGroup>
 </Project>

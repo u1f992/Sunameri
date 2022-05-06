@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.5" />
+    <PackageReference Include="OpenCvSharp4" Version="4.5.5.20211231" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.5.5.20211231" />
+  </ItemGroup>
+
+</Project>

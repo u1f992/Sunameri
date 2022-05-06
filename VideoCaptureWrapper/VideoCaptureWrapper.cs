@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-
 using Microsoft.ClearScript;
-
 using OpenCvSharp;
 
 public class VideoCaptureWrapper : IDisposable
@@ -24,7 +22,7 @@ public class VideoCaptureWrapper : IDisposable
 
         // 接続からtimeoutミリ秒で初回Matを取得できなかった場合throw
         var ready = false;
-        var timeout = 500;
+        var timeout = 5000;
         var stopwatch = new Stopwatch();
 
         _cancellationTokenSource = new CancellationTokenSource();
@@ -69,7 +67,7 @@ public class VideoCaptureWrapper : IDisposable
 
                         if (Cv2.WaitKey(1) == (int)'s')
                             using (var mat = getFrame())
-                                mat.save(DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png");
+                                mat.SaveImage(DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png");
                     }
             }, _cancellationToken)
         );

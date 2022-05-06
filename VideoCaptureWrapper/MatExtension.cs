@@ -15,28 +15,12 @@ public static class MatExtension
         if (!propertyNames.Contains("x") || !propertyNames.Contains("y") || !propertyNames.Contains("width") || !propertyNames.Contains("height"))
             throw new Exception("Object must contain the properties x, y, width and height.");
 
-        return mat.Clone(new Rect((int)rect.GetProperty("x"), (int)rect.GetProperty("y"), (int)rect.GetProperty("width"), (int)rect.GetProperty("height")));
-    }
-    /// <summary>
-    /// ファイルに保存する。
-    /// </summary>
-    /// <param name="mat"></param>
-    /// <param name="fileName"></param>
-    /// <returns></returns>
-    public static bool save(this Mat mat, string fileName)
-    {
-        try
-        {
-            var path = Path.Join(AppContext.BaseDirectory, fileName);
-            if (!mat.SaveImage(fileName))
-                throw new Exception(string.Format("{0} was not saved.", fileName));
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.Error.WriteLine(e.Message);
-            return false;
-        }
+        var x = (int)rect.GetProperty("x");
+        var y = (int)rect.GetProperty("y");
+        var width = (int)rect.GetProperty("width");
+        var height = (int)rect.GetProperty("height");
+
+        return mat.Clone(new Rect(x, y, width, height));
     }
 
     /// <summary>
@@ -59,14 +43,13 @@ public static class MatExtension
         }
     }
     /// <summary>
-    /// 入力画像との類似度を算出する。
+    /// 大きい方の画像の中を小さい方でテンプレートマッチして、最も高いところの類似度を返す。
     /// </summary>
     /// <param name="mat"></param>
-    /// <param name="fileName"></param>
+    /// <param name="template"></param>
     /// <returns>0-1の範囲</returns>
     public static double getSimilarity(this Mat mat, Mat template)
     {
-        // 大きい方の画像の中を小さい方でテンプレートマッチして、最も高いところの類似度を返す
         try
         {
             if (mat.Width >= template.Width && mat.Height >= template.Height)
@@ -90,6 +73,21 @@ public static class MatExtension
                 return maxVal;
             }
         }
+    }
+
+    /// <summary>
+    /// Streamに変換する。
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <param name="fileName">中間ファイル名<br/>必要に応じて削除する</param>
+    /// <returns></returns>
+    public static Stream toStream(this Mat mat, out string fileName)
+    {
+        var tmpPath = Path.GetTempFileName();
+        fileName = Path.Join(Path.GetDirectoryName(tmpPath), Path.GetFileNameWithoutExtension(tmpPath) + ".png");
+        mat.SaveImage(fileName);
+
+        return File.OpenRead(fileName);
     }
 
     public static string getOCRResult(this Mat mat)
