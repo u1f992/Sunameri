@@ -39,23 +39,19 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             typeof(MatExtension)
         });
 
-        // pluginsディレクトリ内の*.dllから追加する
-        var plugins = Path.Join(AppContext.BaseDirectory, "plugins");
-        if (Directory.Exists(plugins))
-        {
-            var files = Directory.GetFiles(plugins);
-            var dlls = files.Where(path => Path.GetExtension(path) == "dll");
-            foreach (string plugin in dlls)
+        // librariesディレクトリ内の*.dllから追加する
+        var libraries = Path.Join(AppContext.BaseDirectory, "libraries");
+        if (Directory.Exists(libraries))
+            foreach (string library in Directory.GetFiles(libraries).Where(path => Path.GetExtension(path) == ".dll"))
                 try
                 {
-                    var asm = Assembly.LoadFrom(plugin);
+                    var asm = Assembly.LoadFrom(library);
                     engine.AddHostTypes(asm.GetTypes());
                 }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine(e.Message);
                 }
-        }
 
         // enable module
         engine.DocumentSettings.AccessFlags = DocumentAccessFlags.EnableFileLoading;
