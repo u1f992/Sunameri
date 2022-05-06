@@ -27,11 +27,14 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         // seed = newVar(System.UInt32); など必須
         engine.AddHostObject("host", HostItemFlags.GlobalMembers, new HostFunctions());
 
-        // Hardwares
-        engine.AddHostType(typeof(SerialPortWrapper));
-        engine.AddHostType(typeof(VideoCaptureWrapper));
-        engine.AddHostType(typeof(Mat));
-        engine.AddHostType(typeof(MatExtension));
+        engine.AddHostTypes(new Type[]
+        {
+            typeof(SerialPortWrapper),
+            typeof(VideoCaptureWrapper),
+            typeof(Cv2),
+            typeof(Mat),
+            typeof(MatExtension)
+        });
 
         // pluginsディレクトリ内の*.dllから追加する
         var plugins = Path.Join(AppContext.BaseDirectory, "plugins");
@@ -53,6 +56,7 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 
         // enable module
         engine.DocumentSettings.AccessFlags = DocumentAccessFlags.EnableFileLoading;
+        
         // execute
         try
         {

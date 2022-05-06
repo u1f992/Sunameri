@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunameri", "Sunameri\Sunameri.csproj", "{D571C123-A95E-42B3-8BA8-F59901094542}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortWrapper", "SerialPortWrapper\SerialPortWrapper.csproj", "{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCaptureWrapper", "VideoCaptureWrapper\VideoCaptureWrapper.csproj", "{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{D571C123-A95E-42B3-8BA8-F59901094542}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D571C123-A95E-42B3-8BA8-F59901094542}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D571C123-A95E-42B3-8BA8-F59901094542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

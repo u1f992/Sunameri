@@ -35,6 +35,7 @@ public class SerialPortWrapper : IDisposable
                 var toWrite = split[0];
                 Console.WriteLine(toWrite);
                 
+                // 残りは_bufferに返す
                 lock (lockObject) _buffer = _buffer[(toWrite.Length + newline.Length)..]; 
             }
         };

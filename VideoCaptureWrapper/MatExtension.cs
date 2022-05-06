@@ -31,16 +31,8 @@ public static class MatExtension
     /// <returns>0-1の範囲</returns>
     public static double getSimilarity(this Mat mat, string fileName)
     {
-        try
-        {
-            using (var template = new Mat(fileName))
-                return mat.getSimilarity(template);
-        }
-        catch (Exception e)
-        {
-            Console.Error.WriteLine(e.Message);
-            return 0;
-        }
+        using (var template = new Mat(fileName))
+            return mat.getSimilarity(template);
     }
     /// <summary>
     /// 大きい方の画像の中を小さい方でテンプレートマッチして、最も高いところの類似度を返す。
@@ -50,20 +42,12 @@ public static class MatExtension
     /// <returns>0-1の範囲</returns>
     public static double getSimilarity(this Mat mat, Mat template)
     {
-        try
-        {
-            if (mat.Width >= template.Width && mat.Height >= template.Height)
-                return MatchTemplate(mat, template);
-            else if (mat.Width <= template.Width && mat.Height <= template.Height)
-                return MatchTemplate(template, mat);
-            else
-                throw new Exception("It doesn't fit either.");
-        }
-        catch (Exception e)
-        {
-            Console.Error.WriteLine(e.Message);
-            return 0;
-        }
+        if (mat.Width >= template.Width && mat.Height >= template.Height)
+            return MatchTemplate(mat, template);
+        else if (mat.Width <= template.Width && mat.Height <= template.Height)
+            return MatchTemplate(template, mat);
+        else
+            throw new Exception("It doesn't fit either.");
         
         double MatchTemplate(Mat larger, Mat smaller)
         {

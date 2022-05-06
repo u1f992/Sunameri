@@ -42,7 +42,7 @@ const trimmed = full.trim(rect);
 trimmed.SaveImage("test_trimmed.png");
 let tmp = [];
 tmp.push(full.trim(rect));
-tmp.push(full.trim({x: 1402, y: 10, width: 183, height: 153}));
+tmp.push(full.trim({ x: 1402, y: 10, width: 183, height: 153 }));
 
 System.Console.WriteLine(`similarity: ${tmp[0].getSimilarity("test_trimmed.png")} is very high.`); // ファイル名で指定
 System.Console.WriteLine(`similarity: ${trimmed.getSimilarity(tmp[1])} is low.`); // Matで指定
