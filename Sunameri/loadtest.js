@@ -3,7 +3,7 @@
  * 10分くらい表示してみる
  */
 
-import * as Sunameri from "./lib/Sunameri.core.js";
+import * as Sunameri from "./modules/Sunameri.core.js";
 
 const config = {
     /** @type {Sunameri.SerialPortConfig} */

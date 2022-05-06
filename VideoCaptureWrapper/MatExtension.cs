@@ -79,7 +79,7 @@ public static class MatExtension
     /// Streamに変換する。
     /// </summary>
     /// <param name="mat"></param>
-    /// <param name="fileName">中間ファイル名<br/>必要に応じて削除する</param>
+    /// <param name="fileName">生成した中間ファイル名<br/>必要に応じて削除する</param>
     /// <returns></returns>
     public static Stream toStream(this Mat mat, out string fileName)
     {

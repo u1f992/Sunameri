@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.0.6" />
-    <PackageReference Include="Microsoft.ClearScript" Version="7.2.4" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.5" />
   </ItemGroup>
 
   <ItemGroup>

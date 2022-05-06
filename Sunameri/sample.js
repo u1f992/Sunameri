@@ -1,5 +1,5 @@
-import * as Sunameri from "./lib/Sunameri.core.js";
-import { KeyDown, KeyUp, xAxis, yAxis, cxAxis, cyAxis } from "./lib/Sunameri.mapping.js";
+import * as Sunameri from "./modules/Sunameri.core.js";
+import { KeyDown, KeyUp, xAxis, yAxis, cxAxis, cyAxis } from "./modules/Sunameri.mapping.js";
 
 // .NETのSystem以下のクラスを利用できます。
 System.Console.WriteLine("Hello Sunameri");
@@ -16,10 +16,10 @@ const capture = Sunameri.getCapture({
     visible: true
 });
 
-// SerialPortの実体は.NETのSerialPortそのものです。
-// プロパティやメソッドはそのまま利用できますが、自動化に有用な内容は拡張メソッドで生やしてあります。
-controller.wait(5000);
-controller.write([
+// SerialPortの実体はSerialPortWrapperです。
+// WHALEからのメッセージをログに記録します。
+controller.sleep(5000);
+controller.run([
     { message: KeyDown.A, wait: 200 },
     { message: KeyUp.A, wait: 2000 }
 ]);
@@ -35,11 +35,11 @@ const rect = {
     width: 183,
     height: 153
 };
-const trimmed = capture.getFrame(rect);
+const trimmed = full.trim(rect);
 
 // Matの実体はOpenCvSharp.Matそのものです。
 // 有用そうなものは拡張メソッドで切り出しています。
-trimmed.save("test_trimmed.png");
+trimmed.SaveImage("test_trimmed.png");
 let tmp = [];
 tmp.push(full.trim(rect));
 tmp.push(full.trim({x: 1402, y: 10, width: 183, height: 153}));
@@ -47,13 +47,13 @@ tmp.push(full.trim({x: 1402, y: 10, width: 183, height: 153}));
 System.Console.WriteLine(`similarity: ${tmp[0].getSimilarity("test_trimmed.png")} is very high.`); // ファイル名で指定
 System.Console.WriteLine(`similarity: ${trimmed.getSimilarity(tmp[1])} is low.`); // Matで指定
 
-// JavaScriptにはusingがないので、手動でDisposeし忘れると簡単にメモリリークします。
+// JavaScriptにはusingがないので、手動でDisposeし忘れると簡単にメモリリークします。注意してください。
 tmp.map(mat => mat.Dispose());
 full.Dispose();
 trimmed.Dispose();
 
 // const result = trimmed.getOCRResult();
-controller.wait(3000);
+controller.sleep(3000);
 
 controller.Dispose();
 capture.Dispose();

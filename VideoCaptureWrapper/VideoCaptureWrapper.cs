@@ -81,35 +81,14 @@ public class VideoCaptureWrapper : IDisposable
     /// <returns></returns>
     public Mat getFrame()
     {
-        return getFrame(0, 0, _size.Width, _size.Height);
-    }
-    /// <summary>
-    /// 現在のMatの一部範囲を取得する。
-    /// </summary>
-    /// <param name="rect">x, y, width, heightを含むオブジェクト</param>
-    public Mat getFrame(ScriptObject rect)
-    {
-        using (var mat = getFrame())
-            return mat.trim(rect);
-    }
-    /// <summary>
-    /// 現在のMatの一部範囲を取得する。
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <returns></returns>
-    public Mat getFrame(int x, int y, int width, int height)
-    {
         try
         {
-            return _mat.Clone(new Rect(x, y, width, height));
+            return _mat.Clone();
         }
         catch (Exception e)
         {
             Console.Error.WriteLine(e.Message);
-            return new Mat(new Size(width, height), MatType.CV_8UC3);
+            return new Mat(_size, MatType.CV_8UC3);
         }
     }
 

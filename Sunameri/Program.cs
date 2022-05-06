@@ -1,4 +1,4 @@
-﻿using System.IO.Ports;
+﻿using System.Reflection;
 
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
@@ -32,6 +32,24 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         engine.AddHostType(typeof(VideoCaptureWrapper));
         engine.AddHostType(typeof(Mat));
         engine.AddHostType(typeof(MatExtension));
+
+        // pluginsディレクトリ内の*.dllから追加する
+        var plugins = Path.Join(AppContext.BaseDirectory, "plugins");
+        if (Directory.Exists(plugins))
+        {
+            var files = Directory.GetFiles(plugins);
+            var dlls = files.Where(path => Path.GetExtension(path) == "dll");
+            foreach (string plugin in dlls)
+                try
+                {
+                    var asm = Assembly.LoadFrom(plugin);
+                    engine.AddHostTypes(asm.GetTypes());
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine(e.Message);
+                }
+        }
 
         // enable module
         engine.DocumentSettings.AccessFlags = DocumentAccessFlags.EnableFileLoading;
