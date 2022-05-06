@@ -25,21 +25,34 @@ public static class MatExtension
     }
 
     /// <summary>
-    /// Matを縦横の比で変形させる。
+    /// Matを縦横の比か値で変形させる。
     /// </summary>
     /// <param name="mat"></param>
-    /// <param name="ratio"></param>
+    /// <param name="scriptObject"></param>
     /// <returns></returns>
-    public static Mat Resize(this Mat mat, ScriptObject ratio)
+    public static Mat Resize(this Mat mat, ScriptObject scriptObject)
     {
-        var propertyNames = ratio.PropertyNames;
-        if (!propertyNames.Contains("fx") || !propertyNames.Contains("fy"))
-            throw new Exception("Object must contain the properties fx and fy.");
-        
-        var fx = (double)ratio.GetProperty("fx");
-        var fy = (double)ratio.GetProperty("fy");
+        var propertyNames = scriptObject.PropertyNames;
+        if (propertyNames.Contains("fx") && propertyNames.Contains("fy"))
+        {
+            // Ratio
+            var fx = (double)scriptObject.GetProperty("fx");
+            var fy = (double)scriptObject.GetProperty("fy");
 
-        return mat.Resize(new Size(), fx, fy);
+            return mat.Resize(new Size(), fx, fy);
+        }
+        else if (propertyNames.Contains("width") && propertyNames.Contains("height"))
+        {
+            // Size
+            var width = (int)scriptObject.GetProperty("fx");
+            var height = (int)scriptObject.GetProperty("height");
+            
+            return mat.Resize(new Size(width, height));
+        }
+        else
+        {
+            throw new Exception("Object must contain the properties fx and fy, or width and height.");
+        }
     }
 
     /// <summary>
