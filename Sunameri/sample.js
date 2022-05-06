@@ -44,8 +44,8 @@ let tmp = [];
 tmp.push(full.Clone(rect));
 tmp.push(full.Clone({ x: 1402, y: 10, width: 183, height: 153 }));
 
-System.Console.WriteLine(`similarity: ${tmp[0].getSimilarity("test_trimmed.png")} is very high.`); // ファイル名で指定
-System.Console.WriteLine(`similarity: ${trimmed.getSimilarity(tmp[1])} is low.`); // Matで指定
+System.Console.WriteLine(`${tmp[0].Contains(new Math("test_trimmed.png"))} : [Expected] true`); // ファイル名で指定
+System.Console.WriteLine(`${trimmed.Contains(tmp[1])} : [Expected] false`); // Matで指定
 
 // JavaScriptにはusingがないので、手動でDisposeし忘れると簡単にメモリリークします。注意してください。
 tmp.map(mat => mat.Dispose());
