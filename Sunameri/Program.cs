@@ -20,12 +20,15 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             engine.Interrupt();
             Environment.Exit(1);
         };
-
+        
         // System 以下のものを何でも使える
         engine.AddHostObject("dotnet", HostItemFlags.GlobalMembers, new HostTypeCollection("mscorlib", "System.Core"));
 
         // seed = newVar(System.UInt32); など必須
         engine.AddHostObject("host", HostItemFlags.GlobalMembers, new HostFunctions());
+
+        // OpenCvSharp
+        engine.AddHostTypes(Assembly.Load(nameof(OpenCvSharp)).GetTypes());
 
         engine.AddHostTypes(new Type[]
         {

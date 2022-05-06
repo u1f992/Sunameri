@@ -19,9 +19,10 @@ export function getController(config) {
 }
 /**
  * @typedef {{ x: number, y: number, width: number, height: number }} Rect
+ * @typedef {{ fx: number, fy: number }} Ratio
  * @typedef {{ index: number, width: number, height: number, visible: boolean }} VideoCaptureConfig
  * @typedef {{ datapath?: string, language?: string, charWhitelist?: string, oem?: number, psmode?: number }} TesseractConfig
- * @typedef {{ trim(rect: Rect): Mat, getSimilarity(fileName: string): number, getSimilarity(template: Mat): number, getOCRResult(tessConfig: TesseractConfig): string, toStream(fileName: string): object, Dispose(): void }} Mat
+ * @typedef {{ Clone(rect: Rect): Mat, Resize(ratio: Ratio): Mat, Contains(source: Mat, threshold?: number): boolean, GetOCRResult(tessConfig: TesseractConfig): string, ToStream(fileName: string): object, Dispose(): void }} Mat
  * @typedef {{ getFrame(): Mat, Dispose(): void }} VideoCaptureWrapper
  */
 /**

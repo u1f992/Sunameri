@@ -10,46 +10,60 @@ public static class MatExtension
     /// <param name="mat"></param>
     /// <param name="rect"></param>
     /// <returns></returns>
-    public static Mat trim(this Mat mat, ScriptObject rect)
+    public static Mat Clone(this Mat mat, ScriptObject rect)
     {
         var propertyNames = rect.PropertyNames;
         if (!propertyNames.Contains("x") || !propertyNames.Contains("y") || !propertyNames.Contains("width") || !propertyNames.Contains("height"))
             throw new Exception("Object must contain the properties x, y, width and height.");
 
-        var x = (int)rect.GetProperty("x");
-        var y = (int)rect.GetProperty("y");
-        var width = (int)rect.GetProperty("width");
+        var x      = (int)rect.GetProperty("x");
+        var y      = (int)rect.GetProperty("y");
+        var width  = (int)rect.GetProperty("width");
         var height = (int)rect.GetProperty("height");
 
         return mat.Clone(new Rect(x, y, width, height));
     }
 
     /// <summary>
-    /// 入力画像との類似度を算出する。
+    /// Matを縦横の比で変形させる。
     /// </summary>
     /// <param name="mat"></param>
-    /// <param name="fileName"></param>
-    /// <returns>0-1の範囲</returns>
-    public static double getSimilarity(this Mat mat, string fileName)
+    /// <param name="ratio"></param>
+    /// <returns></returns>
+    public static Mat Resize(this Mat mat, ScriptObject ratio)
     {
-        using (var template = new Mat(fileName))
-            return mat.getSimilarity(template);
+        var propertyNames = ratio.PropertyNames;
+        if (!propertyNames.Contains("fx") || !propertyNames.Contains("fy"))
+            throw new Exception("Object must contain the properties fx and fy.");
+        
+        var fx = (double)ratio.GetProperty("fx");
+        var fy = (double)ratio.GetProperty("fy");
+
+        return mat.Resize(new Size(), fx, fy);
     }
+
     /// <summary>
-    /// 大きい方の画像の中を小さい方でテンプレートマッチして、類似度が最も高いところの値を返す。
+    /// 大きい方の画像に小さい方の画像が含まれているか調べる。
     /// </summary>
     /// <param name="mat"></param>
-    /// <param name="template"></param>
-    /// <returns>0-1の範囲</returns>
-    public static double getSimilarity(this Mat mat, Mat template)
+    /// <param name="source"></param>
+    /// <param name="threshold"></param>
+    /// <returns></returns>
+    public static bool Contains(this Mat mat, Mat source, double threshold = 0.5)
     {
-        if (mat.Width >= template.Width && mat.Height >= template.Height)
-            return MatchTemplate(mat, template);
-        else if (mat.Width <= template.Width && mat.Height <= template.Height)
-            return MatchTemplate(template, mat);
+        double result;
+        if (mat.Width >= source.Width && mat.Height >= source.Height)
+            // matの各辺の長さがそれぞれsource以上の場合
+            result = MatchTemplate(mat, source);
+        else if (mat.Width <= source.Width && mat.Height <= source.Height)
+            // sourceの各辺の長さがそれぞれmat以上の場合
+            result = MatchTemplate(source, mat);
         else
+            // 一方をもう一方に収めることができない場合
             throw new Exception("It doesn't fit either.");
         
+        return result >= threshold;
+
         double MatchTemplate(Mat larger, Mat smaller)
         {
             using (var result = larger.MatchTemplate(smaller, TemplateMatchModes.CCoeffNormed))
@@ -66,7 +80,7 @@ public static class MatExtension
     /// <param name="mat"></param>
     /// <param name="fileName">生成した中間ファイル名<br/>必要に応じて削除する</param>
     /// <returns></returns>
-    public static Stream toStream(this Mat mat, out string fileName)
+    public static Stream ToStream(this Mat mat, out string fileName)
     {
         var tmpPath = Path.GetTempFileName();
         fileName = Path.Join(Path.GetDirectoryName(tmpPath), Path.GetFileNameWithoutExtension(tmpPath) + ".png");
@@ -75,7 +89,13 @@ public static class MatExtension
         return File.OpenRead(fileName);
     }
 
-    public static string getOCRResult(this Mat mat, ScriptObject tessConfig)
+    /// <summary>
+    /// OCR結果を取得する。
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <param name="tessConfig">datapath, language, charWhitelist, oem, psmodeを設定可能</param>
+    /// <returns></returns>
+    public static string GetOCRResult(this Mat mat, ScriptObject tessConfig)
     {
         var propertyNames = tessConfig.PropertyNames;
 
