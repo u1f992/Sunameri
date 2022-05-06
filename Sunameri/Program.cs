@@ -32,10 +32,10 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 
         engine.AddHostTypes(new Type[]
         {
-            typeof(SerialPortWrapper),
-            typeof(VideoCaptureWrapper),
             typeof(Cv2),
             typeof(Mat),
+            typeof(SerialPortWrapper),
+            typeof(VideoCaptureWrapper),
             typeof(MatExtension)
         });
 
