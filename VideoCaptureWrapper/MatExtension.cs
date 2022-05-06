@@ -62,7 +62,7 @@ public static class MatExtension
     /// <param name="source"></param>
     /// <param name="threshold"></param>
     /// <returns></returns>
-    public static bool Contains(this Mat mat, Mat source, double threshold = 0.5)
+    public static bool Contains(this Mat mat, Mat source, double threshold = 0.75)
     {
         double result;
         if (mat.Width >= source.Width && mat.Height >= source.Height)
