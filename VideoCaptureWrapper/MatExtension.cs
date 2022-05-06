@@ -1,5 +1,6 @@
 ﻿using Microsoft.ClearScript;
 using OpenCvSharp;
+using OpenCvSharp.Text;
 
 public static class MatExtension
 {
@@ -35,7 +36,7 @@ public static class MatExtension
             return mat.getSimilarity(template);
     }
     /// <summary>
-    /// 大きい方の画像の中を小さい方でテンプレートマッチして、最も高いところの類似度を返す。
+    /// 大きい方の画像の中を小さい方でテンプレートマッチして、類似度が最も高いところの値を返す。
     /// </summary>
     /// <param name="mat"></param>
     /// <param name="template"></param>
@@ -74,8 +75,20 @@ public static class MatExtension
         return File.OpenRead(fileName);
     }
 
-    public static string getOCRResult(this Mat mat)
+    public static string getOCRResult(this Mat mat, ScriptObject tessConfig)
     {
-        throw new NotImplementedException();
+        var propertyNames = tessConfig.PropertyNames;
+
+        var datapath      = propertyNames.Contains("datapath")      ? (string)tessConfig.GetProperty("datapath")      : null;
+        var language      = propertyNames.Contains("language")      ? (string)tessConfig.GetProperty("language")      : null;
+        var charWhitelist = propertyNames.Contains("charWhitelist") ? (string)tessConfig.GetProperty("charWhitelist") : null;
+        var oem           = propertyNames.Contains("oem")           ? (int)tessConfig.GetProperty("oem")              : 3;
+        var psmode        = propertyNames.Contains("psmode")        ? (int)tessConfig.GetProperty("psmode")           : 3;
+        
+        using (var tesseract = OCRTesseract.Create(datapath, language, charWhitelist, oem, psmode))
+        {
+            tesseract.Run(mat, out var outputText, out var componentRects, out var componentTexts, out var componentConfidences);
+            return outputText;
+        }
     }
 }

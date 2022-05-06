@@ -18,9 +18,10 @@ export function getController(config) {
     return controller;
 }
 /**
- * @typedef {{ index: number, width: number, height: number, visible: boolean }} VideoCaptureConfig
- * @typedef {{ trim(rect: Rect): Mat, getSimilarity(fileName: string): number, getSimilarity(template: Mat): number, Dispose(): void }} Mat
  * @typedef {{ x: number, y: number, width: number, height: number }} Rect
+ * @typedef {{ index: number, width: number, height: number, visible: boolean }} VideoCaptureConfig
+ * @typedef {{ datapath?: string, language?: string, charWhitelist?: string, oem?: number, psmode?: number }} TesseractConfig
+ * @typedef {{ trim(rect: Rect): Mat, getSimilarity(fileName: string): number, getSimilarity(template: Mat): number, getOCRResult(tessConfig: TesseractConfig): string, toStream(fileName: string): object, Dispose(): void }} Mat
  * @typedef {{ getFrame(): Mat, Dispose(): void }} VideoCaptureWrapper
  */
 /**
