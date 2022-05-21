@@ -6,10 +6,11 @@
     /// <param name="millisecondsTimeout"></param>
     public void sleep(int millisecondsTimeout)
     {
-        var task = start(millisecondsTimeout);
-        task.Wait();
+        start(millisecondsTimeout);
+        wait();
     }
 
+    private bool _running = false;
     private Task? _task;
     private long _elapsedMilliseconds = 0;
     private long _submittedMilliseconds = long.MaxValue;
@@ -21,7 +22,7 @@
     {
         // 初回のみ遅延があるため、コンストラクタで捨てておく
         // メモリに展開する際の何らかな気がする
-        var task = start();
+        start();
         stop();
     }
     
@@ -29,16 +30,17 @@
     /// タイマーを開始する
     /// </summary>
     /// <returns></returns>
-    public async Task start()
+    public void start()
     {
-        await start(long.MaxValue);
+        start(long.MaxValue);
     }
     /// <summary>
     /// タイマーを開始する
     /// </summary>
     /// <returns></returns>
-    public async Task start(long milliseconds)
+    public void start(long milliseconds)
     {
+        _running = true;
         submit(milliseconds);
 
         _elapsedMilliseconds = 0;
@@ -56,8 +58,9 @@
                     next += interval;
                 }
             }
+
+            _running = false;
         });
-        await _task.ConfigureAwait(false);
     }
 
     /// <summary>
@@ -66,7 +69,14 @@
     /// <param name="milliseconds"></param>
     public void submit(long milliseconds)
     {
+        if (!_running) return;
         _submittedMilliseconds = milliseconds;
+    }
+
+    public void wait()
+    {
+        if (!_running) return;
+        _task?.Wait();
     }
 
     /// <summary>
@@ -74,6 +84,8 @@
     /// </summary>
     public void stop()
     {
+        if (!_running) return;
+
         _elapsedMilliseconds = long.MaxValue;
         _task?.Wait();
 

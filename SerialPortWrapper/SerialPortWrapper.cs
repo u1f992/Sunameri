@@ -40,6 +40,8 @@ public class SerialPortWrapper : IDisposable
                 lock (lockObject) _buffer = _buffer[(toWrite.Length + newline.Length)..]; 
             }
         };
+
+        _serialPort.Open();
     }
 
     /// <summary>
@@ -94,6 +96,7 @@ public class SerialPortWrapper : IDisposable
             if (disposing)
             {
                 // TODO: dispose managed state (managed objects)
+                _serialPort.Dispose();
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer

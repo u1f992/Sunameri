@@ -7,9 +7,9 @@ timer.sleep(5000);
 System.Console.WriteLine("stop");
 
 System.Console.WriteLine("start");
-    var task = timer.start();
-    System.Console.WriteLine("submit");
-    timer.submit(5000);
+var task = timer.start();
+System.Console.WriteLine("submit");
+timer.submit(5000);
 
-    task.Wait();
-    System.Console.WriteLine("end");
+task.Wait();
+System.Console.WriteLine("end");

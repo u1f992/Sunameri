@@ -70,8 +70,9 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         }
         catch (Exception e)
         {
+            Console.Error.WriteLine("Error has occurred.");
             Console.Error.WriteLine(e);
-            Environment.ExitCode = 1;
+            Environment.Exit(1);
         }
     }
 });
