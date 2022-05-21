@@ -26,5 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\VideoCaptureWrapper\VideoCaptureWrapper.csproj" />
     <ProjectReference Include="..\SerialPortWrapper\SerialPortWrapper.csproj" />
+    <ProjectReference Include="..\Timer\Timer.csproj" />
   </ItemGroup>
 </Project>

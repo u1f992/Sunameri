@@ -5,6 +5,7 @@ using Microsoft.ClearScript;
 public class SerialPortWrapper : IDisposable
 {
     SerialPort _serialPort;
+    Timer _timer = new Timer();
     string _buffer = "";
     object lockObject = new Object();
 
@@ -80,28 +81,7 @@ public class SerialPortWrapper : IDisposable
             _serialPort.WriteLine(message[0].ToString());
         
         if (wait != 0)
-            sleep(wait);
-    }
-    /// <summary>
-    /// 指定された時間待機する。
-    /// </summary>
-    /// <param name="millisecondsTimeout"></param>
-    public void sleep(int millisecondsTimeout)
-    {
-        Task.Run(() =>
-        {
-            long elapsed = 0;
-
-            var interval = 10000000 / 1000;
-            var next = DateTime.Now.Ticks + interval;
-
-            while (elapsed < millisecondsTimeout)
-                if (next <= DateTime.Now.Ticks)
-                {
-                    elapsed++;
-                    next += interval;
-                }
-        }).Wait();
+            _timer.sleep(wait);
     }
 
     #region IDisposable

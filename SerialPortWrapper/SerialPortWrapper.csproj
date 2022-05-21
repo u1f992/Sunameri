@@ -13,4 +13,8 @@
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Timer\Timer.csproj" />
+  </ItemGroup>
+
 </Project>

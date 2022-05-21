@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.ClearScript;
 using OpenCvSharp;
 
 public class VideoCaptureWrapper : IDisposable
@@ -15,10 +14,10 @@ public class VideoCaptureWrapper : IDisposable
     {
         _size = new Size(width, height);
 
-        // 表示サイズは固定
+        // 表示サイズのデフォルト値は縦480
         const int heightToShow = 480;
         int widthToShow = (int)((1.0 * heightToShow / height) * width);
-        _sizeToShow = new Size(widthToShow, heightToShow);
+        setSizeToShow(widthToShow, heightToShow);
 
         // 接続からtimeoutミリ秒で初回Matを取得できなかった場合throw
         var ready = false;
@@ -90,6 +89,11 @@ public class VideoCaptureWrapper : IDisposable
             Console.Error.WriteLine(e.Message);
             return new Mat(_size, MatType.CV_8UC3);
         }
+    }
+
+    public void setSizeToShow(int width, int height)
+    {
+        _sizeToShow = new Size(width, height);
     }
 
     #region IDisposable
