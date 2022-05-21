@@ -9,6 +9,7 @@ using OpenCvSharp;
 ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 {
     var inputPath = GetRootedPath(input);
+    var __dirname = Path.GetDirectoryName(inputPath);
 
     var engines = new V8ScriptEngine[Environment.ProcessorCount];
     using (var engine = new V8ScriptEngine())
@@ -40,6 +41,9 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             typeof(VideoCaptureWrapper),
             typeof(MatExtension)
         });
+
+        // Node.js風にスクリプトがあるフォルダを表す
+        engine.Execute(string.Format("const __filename = \"{0}\"; const __dirname = \"{1}\"; ", inputPath.Replace("\\","\\\\"), __dirname?.Replace("\\","\\\\")));
 
         // librariesディレクトリ内の*.dllから追加する
         var libraries = Path.Join(AppContext.BaseDirectory, "libraries");

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <None Update="modules/*" CopyToOutputDirectory="Always" />
+    <None Update="libraries/*" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>

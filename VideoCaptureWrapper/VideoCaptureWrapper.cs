@@ -1,8 +1,11 @@
 ﻿using System.Diagnostics;
 using OpenCvSharp;
+using NLog;
 
 public class VideoCaptureWrapper : IDisposable
 {
+    static Logger _logger = LogManager.GetCurrentClassLogger();
+
     Mat _mat = new Mat();
     Size _size;
     Size _sizeToShow;
@@ -62,7 +65,7 @@ public class VideoCaptureWrapper : IDisposable
                             using (var resized = raw.Resize(_sizeToShow))
                                 window.ShowImage(resized);
                         }
-                        catch (Exception e) { Console.Error.WriteLine(e.Message); }
+                        catch (Exception e) { _logger.Error(e); }
 
                         if (Cv2.WaitKey(1) == (int)'s')
                             using (var mat = getFrame())
@@ -86,7 +89,7 @@ public class VideoCaptureWrapper : IDisposable
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e.Message);
+            _logger.Error(e);
             return new Mat(_size, MatType.CV_8UC3);
         }
     }

@@ -10,11 +10,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ClearScript" Version="7.2.5" />
+    <PackageReference Include="NLog" Version="5.0.0" />
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Timer\Timer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>

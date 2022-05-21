@@ -1,9 +1,12 @@
 ﻿using System.IO.Ports;
 using System.Text;
 using Microsoft.ClearScript;
+using NLog;
 
 public class SerialPortWrapper : IDisposable
 {
+    static Logger _logger = LogManager.GetCurrentClassLogger();
+
     SerialPort _serialPort;
     Timer _timer = new Timer();
     string _buffer = "";
@@ -34,7 +37,7 @@ public class SerialPortWrapper : IDisposable
             if (split.Length > 1)
             {
                 var toWrite = split[0];
-                Console.WriteLine(toWrite);
+                _logger.Trace(toWrite);
                 
                 // 残りは_bufferに返す
                 lock (lockObject) _buffer = _buffer[(toWrite.Length + newline.Length)..]; 
