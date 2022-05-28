@@ -12,10 +12,11 @@ public class SerialPortWrapper : IDisposable
     string _buffer = "";
     object lockObject = new Object();
 
+    public SerialPortWrapper(ScriptObject config) : this((string)config.GetProperty("portName"), (int)config.GetProperty("baudRate")) { }
     public SerialPortWrapper(string portName, int baudRate)
     {
         _serialPort = new SerialPort(portName, baudRate);
-        
+
         // https://www.arduino.cc/reference/en/language/functions/communication/serial/println/
         _serialPort.Encoding = Encoding.UTF8;
         _serialPort.NewLine = "\r\n";
@@ -26,7 +27,7 @@ public class SerialPortWrapper : IDisposable
             var serialPort = (SerialPort)sender;
             if (!serialPort.IsOpen)
                 return;
-            
+
             // _bufferに追加する
             var buffer = serialPort.ReadExisting();
             lock (lockObject) _buffer += buffer;
@@ -38,9 +39,9 @@ public class SerialPortWrapper : IDisposable
             {
                 var toWrite = split[0];
                 _logger.Trace(toWrite);
-                
+
                 // 残りは_bufferに返す
-                lock (lockObject) _buffer = _buffer[(toWrite.Length + newline.Length)..]; 
+                lock (lockObject) _buffer = _buffer[(toWrite.Length + newline.Length)..];
             }
         };
 
@@ -51,7 +52,7 @@ public class SerialPortWrapper : IDisposable
     /// WHALEにメッセージを送信する。
     /// </summary>
     /// <param name="scriptObject">プロパティmessageとwaitを含むオブジェクト | その配列</param>
-    public void run(ScriptObject scriptObject)
+    public void execute(ScriptObject scriptObject)
     {
         // https://github.com/microsoft/ClearScript/issues/131
 
@@ -61,7 +62,7 @@ public class SerialPortWrapper : IDisposable
             var sequence = _scriptObject;
 
             for (var i = 0; i < sequence.length; i++)
-                run((ScriptObject)sequence[i]);
+                execute((ScriptObject)sequence[i]);
         }
         else
         {
@@ -72,7 +73,7 @@ public class SerialPortWrapper : IDisposable
 
             var message = (string)operation.GetProperty("message");
             var wait = (int)operation.GetProperty("wait");
-            run(message, wait);
+            execute(message, wait);
         }
     }
     /// <summary>
@@ -80,11 +81,11 @@ public class SerialPortWrapper : IDisposable
     /// </summary>
     /// <param name="message">先頭1文字のみ有効</param>
     /// <param name="wait"></param>
-    private void run(string message, int wait)
+    private void execute(string message, int wait)
     {
         if (!string.IsNullOrEmpty(message))
             _serialPort.WriteLine(message[0].ToString());
-        
+
         if (wait != 0)
             _timer.sleep(wait);
     }

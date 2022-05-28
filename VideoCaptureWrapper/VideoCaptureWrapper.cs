@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.ClearScript;
 using OpenCvSharp;
 using NLog;
 
@@ -13,6 +14,7 @@ public class VideoCaptureWrapper : IDisposable
     CancellationTokenSource _cancellationTokenSource;
     CancellationToken _cancellationToken;
 
+    public VideoCaptureWrapper(ScriptObject config) : this((int)config.GetProperty("index"), (int)config.GetProperty("width"), (int)config.GetProperty("height"), (bool)config.GetProperty("visible")) { }
     public VideoCaptureWrapper(int index, int width, int height, bool visible)
     {
         _size = new Size(width, height);
@@ -77,10 +79,6 @@ public class VideoCaptureWrapper : IDisposable
         if (!ready) throw new Exception("VideoCapture seems not to open.");
     }
 
-    /// <summary>
-    /// 現在のMatを取得する。
-    /// </summary>
-    /// <returns></returns>
     public Mat getFrame()
     {
         try

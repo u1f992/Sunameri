@@ -4,8 +4,6 @@ using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
 using Microsoft.ClearScript.V8;
 
-using OpenCvSharp;
-
 ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 {
     var inputPath = GetRootedPath(input);
@@ -34,12 +32,17 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         engine.AddHostTypes(new Type[]
         {
             typeof(JavaScriptExtensions), // 要らないかも
-            typeof(Cv2),
-            typeof(Mat),
-            typeof(Timer),
+            typeof(SerialPortWrapper),
+            typeof(KeyDown),
+            typeof(KeyUp),
+            typeof(xAxis),
+            typeof(yAxis),
+            typeof(cxAxis),
+            typeof(cyAxis),
             typeof(SerialPortWrapper),
             typeof(VideoCaptureWrapper),
-            typeof(MatExtension)
+            typeof(MatExtension),
+            typeof(Timer)
         });
 
         // Node.js風にスクリプトがあるフォルダを表す
@@ -61,6 +64,7 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 
         // enable module
         engine.DocumentSettings.AccessFlags = DocumentAccessFlags.EnableFileLoading;
+        engine.DocumentSettings.SearchPath = __dirname;
         
         // execute
         try
@@ -69,12 +73,11 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         }
         catch (ScriptInterruptedException)
         {
-            // 本当はここで止まってほしいが、たぶんsleepの実装が悪くてキャンセルできない。
+            // 本当はここで止まってほしいが、だめみたい
             // Environment.Exit(1); で吹き飛ばしている。
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine("Error has occurred.");
             Console.Error.WriteLine(e);
             Environment.Exit(1);
         }
