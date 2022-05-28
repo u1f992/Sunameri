@@ -44,7 +44,7 @@ public static class MatExtension
         else if (propertyNames.Contains("width") && propertyNames.Contains("height"))
         {
             // Size
-            var width = (int)scriptObject.GetProperty("fx");
+            var width = (int)scriptObject.GetProperty("width");
             var height = (int)scriptObject.GetProperty("height");
             
             return mat.Resize(new Size(width, height));
