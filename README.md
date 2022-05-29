@@ -8,7 +8,7 @@
 .\Sunameri.exe scriptfile.js
 ```
 
-詳細は[サンプル](./Sunameri/sample.js)を確認してください。
+詳細は[サンプル](https://github.com/mukai1011/xd-adjust-seed)を確認してください。
 
 ## Note
 
