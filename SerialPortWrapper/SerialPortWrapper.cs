@@ -81,7 +81,7 @@ public class SerialPortWrapper : IDisposable
     /// </summary>
     /// <param name="message">先頭1文字のみ有効</param>
     /// <param name="wait"></param>
-    private void execute(string message, int wait)
+    void execute(string message, int wait)
     {
         if (!string.IsNullOrEmpty(message))
             _serialPort.WriteLine(message[0].ToString());
