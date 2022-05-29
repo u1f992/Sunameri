@@ -4,6 +4,8 @@ using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
 using Microsoft.ClearScript.V8;
 
+using OpenCvSharp;
+
 ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 {
     // 入力ファイルのフルパス
@@ -32,6 +34,8 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             typeof(cyAxis),
             typeof(SerialPortWrapper),
             typeof(VideoCaptureWrapper),
+            typeof(Cv2),
+            typeof(Mat),
             typeof(MatExtension),
             typeof(Timer)
         });
