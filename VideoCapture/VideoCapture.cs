@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿namespace Sunameri;
+
+using System.Diagnostics;
 using Microsoft.ClearScript;
 using OpenCvSharp;
 using NLog;
 
-public class VideoCaptureWrapper : IDisposable
+public class VideoCapture
 {
     static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -14,8 +16,8 @@ public class VideoCaptureWrapper : IDisposable
     CancellationTokenSource _cancellationTokenSource;
     CancellationToken _cancellationToken;
 
-    public VideoCaptureWrapper(ScriptObject config) : this((int)config.GetProperty("index"), (int)config.GetProperty("width"), (int)config.GetProperty("height"), (bool)config.GetProperty("visible")) { }
-    public VideoCaptureWrapper(int index, int width, int height, bool visible)
+    public VideoCapture(ScriptObject config) : this((int)config.GetProperty("index"), (int)config.GetProperty("width"), (int)config.GetProperty("height"), (bool)config.GetProperty("visible")) { }
+    public VideoCapture(int index, int width, int height, bool visible)
     {
         _size = new Size(width, height);
 
@@ -36,7 +38,7 @@ public class VideoCaptureWrapper : IDisposable
             Task.Run(() =>
             {
                 // _matを更新するTask
-                using (var videoCapture = new VideoCapture(index)
+                using (var videoCapture = new OpenCvSharp.VideoCapture(index)
                 {
                     FrameWidth = width,
                     FrameHeight = height
@@ -96,39 +98,4 @@ public class VideoCaptureWrapper : IDisposable
     {
         _sizeToShow = new Size(width, height);
     }
-
-    #region IDisposable
-    private bool disposedValue;
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                // TODO: dispose managed state (managed objects)
-                _cancellationTokenSource.Cancel();
-                _task.Wait();
-            }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-            // TODO: set large fields to null
-            disposedValue = true;
-        }
-    }
-
-    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-    // ~Hoge()
-    // {
-    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-    //     Dispose(disposing: false);
-    // }
-
-    public void Dispose()
-    {
-        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-    #endregion
 }

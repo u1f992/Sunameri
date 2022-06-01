@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class xAxis
 {
     public const string _0 = "y";

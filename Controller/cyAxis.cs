@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class cyAxis
 {
     public const string _0 = "8";

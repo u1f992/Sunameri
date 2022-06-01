@@ -6,6 +6,8 @@ using Microsoft.ClearScript.V8;
 
 using OpenCvSharp;
 
+using Sunameri;
+
 ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 {
     // 入力ファイルのフルパス
@@ -25,19 +27,18 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         engine.AddHostTypes(new Type[]
         {
             typeof(JavaScriptExtensions), // 要らないかも
-            typeof(SerialPortWrapper),
+            typeof(Controller),
             typeof(KeyDown),
             typeof(KeyUp),
             typeof(xAxis),
             typeof(yAxis),
             typeof(cxAxis),
             typeof(cyAxis),
-            typeof(SerialPortWrapper),
-            typeof(VideoCaptureWrapper),
+            typeof(Sunameri.VideoCapture),
             typeof(Cv2),
             typeof(Mat),
             typeof(MatExtension),
-            typeof(Timer)
+            typeof(Sunameri.Timer)
         });
 
         // librariesディレクトリ内の*.dllから追加する

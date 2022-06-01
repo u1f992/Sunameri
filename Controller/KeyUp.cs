@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class KeyUp
 {
     public const string A = "m";

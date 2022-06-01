@@ -1,4 +1,6 @@
-﻿public class Timer
+﻿namespace Sunameri;
+
+public class Timer
 {
     /// <summary>
     /// 指定された時間待機する。
