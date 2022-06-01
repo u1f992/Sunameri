@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class cxAxis
 {
     public const string _0 = "5";

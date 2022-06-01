@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class KeyDown
 {
     public const string A = "a";

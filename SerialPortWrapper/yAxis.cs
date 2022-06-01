@@ -1,3 +1,5 @@
+namespace Sunameri;
+
 public static class yAxis
 {
     public const string _0 = "2";

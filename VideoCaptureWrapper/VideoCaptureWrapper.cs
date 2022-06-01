@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿namespace Sunameri;
+
+using System.Diagnostics;
 using Microsoft.ClearScript;
 using OpenCvSharp;
 using NLog;

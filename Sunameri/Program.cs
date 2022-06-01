@@ -6,6 +6,8 @@ using Microsoft.ClearScript.V8;
 
 using OpenCvSharp;
 
+using Sunameri;
+
 ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
 {
     // 入力ファイルのフルパス
@@ -37,7 +39,7 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             typeof(Cv2),
             typeof(Mat),
             typeof(MatExtension),
-            typeof(Timer)
+            typeof(Sunameri.Timer)
         });
 
         // librariesディレクトリ内の*.dllから追加する

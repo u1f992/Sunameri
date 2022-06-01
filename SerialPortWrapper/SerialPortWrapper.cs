@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿namespace Sunameri;
+
+using System.IO.Ports;
 using System.Text;
 using Microsoft.ClearScript;
 using NLog;

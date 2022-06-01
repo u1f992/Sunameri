@@ -1,4 +1,6 @@
-﻿using Microsoft.ClearScript;
+﻿namespace Sunameri;
+
+using Microsoft.ClearScript;
 using OpenCvSharp;
 using OpenCvSharp.Text;
 
