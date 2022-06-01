@@ -27,14 +27,13 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         engine.AddHostTypes(new Type[]
         {
             typeof(JavaScriptExtensions), // 要らないかも
-            typeof(SerialPortWrapper),
+            typeof(Controller),
             typeof(KeyDown),
             typeof(KeyUp),
             typeof(xAxis),
             typeof(yAxis),
             typeof(cxAxis),
             typeof(cyAxis),
-            typeof(SerialPortWrapper),
             typeof(VideoCaptureWrapper),
             typeof(Cv2),
             typeof(Mat),

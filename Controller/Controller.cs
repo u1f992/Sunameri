@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.ClearScript;
 using NLog;
 
-public class SerialPortWrapper
+public class Controller
 {
     static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -14,8 +14,8 @@ public class SerialPortWrapper
     string _buffer = "";
     object lockObject = new Object();
 
-    public SerialPortWrapper(ScriptObject config) : this((string)config.GetProperty("portName"), (int)config.GetProperty("baudRate")) { }
-    public SerialPortWrapper(string portName, int baudRate)
+    public Controller(ScriptObject config) : this((string)config.GetProperty("portName"), (int)config.GetProperty("baudRate")) { }
+    public Controller(string portName, int baudRate)
     {
         _serialPort = new SerialPort(portName, baudRate);
 
