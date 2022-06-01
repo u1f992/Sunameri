@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VideoCaptureWrapper\VideoCaptureWrapper.csproj" />
+    <ProjectReference Include="..\VideoCapture\VideoCapture.csproj" />
     <ProjectReference Include="..\Controller\Controller.csproj" />
     <ProjectReference Include="..\Timer\Timer.csproj" />
   </ItemGroup>

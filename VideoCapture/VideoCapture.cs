@@ -5,7 +5,7 @@ using Microsoft.ClearScript;
 using OpenCvSharp;
 using NLog;
 
-public class VideoCaptureWrapper
+public class VideoCapture
 {
     static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -16,8 +16,8 @@ public class VideoCaptureWrapper
     CancellationTokenSource _cancellationTokenSource;
     CancellationToken _cancellationToken;
 
-    public VideoCaptureWrapper(ScriptObject config) : this((int)config.GetProperty("index"), (int)config.GetProperty("width"), (int)config.GetProperty("height"), (bool)config.GetProperty("visible")) { }
-    public VideoCaptureWrapper(int index, int width, int height, bool visible)
+    public VideoCapture(ScriptObject config) : this((int)config.GetProperty("index"), (int)config.GetProperty("width"), (int)config.GetProperty("height"), (bool)config.GetProperty("visible")) { }
+    public VideoCapture(int index, int width, int height, bool visible)
     {
         _size = new Size(width, height);
 
@@ -38,7 +38,7 @@ public class VideoCaptureWrapper
             Task.Run(() =>
             {
                 // _matを更新するTask
-                using (var videoCapture = new VideoCapture(index)
+                using (var videoCapture = new OpenCvSharp.VideoCapture(index)
                 {
                     FrameWidth = width,
                     FrameHeight = height

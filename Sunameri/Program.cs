@@ -34,7 +34,7 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
             typeof(yAxis),
             typeof(cxAxis),
             typeof(cyAxis),
-            typeof(VideoCaptureWrapper),
+            typeof(Sunameri.VideoCapture),
             typeof(Cv2),
             typeof(Mat),
             typeof(MatExtension),

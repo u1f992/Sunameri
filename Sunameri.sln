@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunameri", "Sunameri\Suname
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{41B91D82-D34A-4573-AB2E-1EDE03B6DFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCaptureWrapper", "VideoCaptureWrapper\VideoCaptureWrapper.csproj", "{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCapture", "VideoCapture\VideoCapture.csproj", "{C14E3EF7-0D5B-4F38-A92C-6DFF9A601913}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timer", "Timer\Timer.csproj", "{EBE7A680-49EF-4E6F-BEA3-DCD4F02A7686}"
 EndProject
