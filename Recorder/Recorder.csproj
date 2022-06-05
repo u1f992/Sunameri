@@ -22,16 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.0.6" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sunameri\Sunameri.csproj" />
-  </ItemGroup>
-
-  <!-- https://stackoverflow.com/a/43934475 -->
-  <Target Name="Rename" AfterTargets="Publish">
-    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Recorder.exe" />
-    <Message Text="Rename SampleApp.exe -> Recorder.exe" Importance="high" />
-  </Target>
 
 </Project>
