@@ -18,8 +18,8 @@ const controller = new Controller({
     baudRate: 4800
 });
 controller.execute([
-    { message: KeyDown.A, wait: 200 },
-    { message: KeyUp.A, wait: 200 }
+    { type: 'KeyDown', key: 'A', wait: 200 },
+    { type: 'KeyUp', key: 'A', wait: 200 }
 ]);
 ```
 
