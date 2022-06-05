@@ -28,12 +28,6 @@ ConsoleApp.Run(args, ([Option(0, "scriptfile")] string input) =>
         {
             typeof(JavaScriptExtensions), // 要らないかも
             typeof(Controller),
-            typeof(KeyDown),
-            typeof(KeyUp),
-            typeof(xAxis),
-            typeof(yAxis),
-            typeof(cxAxis),
-            typeof(cyAxis),
             typeof(Sunameri.VideoCapture),
             typeof(Cv2),
             typeof(Mat),
