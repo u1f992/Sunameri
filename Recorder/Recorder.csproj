@@ -18,8 +18,6 @@
     <DebugType>embedded</DebugType>
     
     <IsPackable>false</IsPackable>
-
-    <Version>2.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,8 +30,8 @@
 
   <!-- https://stackoverflow.com/a/43934475 -->
   <Target Name="Rename" AfterTargets="Publish">
-    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Sunameri.exe" />
-    <Message Text="Rename SampleApp.exe -> Sunameri.exe" Importance="high" />
+    <Move SourceFiles="$(PublishDir)\SampleApp.exe" DestinationFiles="$(PublishDir)\Recorder.exe" />
+    <Message Text="Rename SampleApp.exe -> Recorder.exe" Importance="high" />
   </Target>
 
 </Project>
