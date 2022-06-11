@@ -9,9 +9,6 @@ public class Controller
 {
     static Logger _logger = LogManager.GetCurrentClassLogger();
 
-    // たぶんボーレート依存だが計算がめんどくさいので適当
-    const int MinimumWaitTime = 10;
-
     SerialPort _serialPort;
     Timer _timer = new Timer();
     string _buffer = "";
@@ -157,20 +154,12 @@ public class Controller
         else
         {
             // keyが配列で与えられた場合、同時入力
-            // wait最小で送る
             var keys = _key;
             for (var i = 0; i < keys.length; i++)
             {
-                message = search(type, (string)keys[i]);
-                if (i != keys.length - 1)
-                {
-                    executeRaw(message, MinimumWaitTime);
-                }
-                else
-                {
-                    executeRaw(message, wait);
-                }
+                message += search(type, (string)keys[i]);
             }
+            executeRaw(message, wait);
         }
     }
     /// <summary>
@@ -195,32 +184,35 @@ public class Controller
             if (propertyNames.Contains(propName)) propList.Add(propName);
         }
 
-        // messageをwait最小で送信する
         var search = (string type, int key) => messagedb[string.Format("{0}.{1}", type, key)];
-        var done = new List<string>();
+        var message = "";
         foreach (var propName in propList)
         {
-            var message = search(propName, (int)operation.GetProperty(propName));
-            done.Add(propName);
-            if (done.Count != propList.Count)
-            {
-                executeRaw(message, MinimumWaitTime);
-            }
-            else
-            {
-                executeRaw(message, wait);
-            }
+            message += search(propName, (int)operation.GetProperty(propName));
         }
+        executeRaw(message, wait);
     }
     /// <summary>
     /// WHALEにメッセージを送信する。
     /// </summary>
-    /// <param name="message">先頭1文字のみ有効</param>
+    /// <param name="message"></param>
     /// <param name="wait"></param>
     void executeRaw(string message, int wait)
     {
         if (!string.IsNullOrEmpty(message))
-            _serialPort.WriteLine(message[0].ToString());
+        {
+            // 複数文字送ると漏れたりするようなので
+            // 最後以外は適当に待つ
+            for (var i = 0; i < message.Length; i++)
+            {
+                _serialPort.WriteLine(message[i].ToString());
+                if (i != message.Length - 1)
+                {
+                    // もっと短くするべきだけど、キューが詰まってそう...
+                    _timer.sleep(100);
+                }
+            }
+        }
 
         _timer.sleep(wait);
     }
